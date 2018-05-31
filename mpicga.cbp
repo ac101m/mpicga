@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="mpicga" />
+		<Option pch_mode="2" />
+		<Option compiler="mpich" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/mpiga" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="mpich" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/mpiga" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="mpich" />
+				<Compiler>
+					<Add option="-O3" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-std=c++11" />
+			<Add directory="include" />
+		</Compiler>
+		<Unit filename="include/bitVector.hpp" />
+		<Unit filename="include/config.hpp" />
+		<Unit filename="include/mpicga.hpp" />
+		<Unit filename="include/utils.hpp" />
+		<Unit filename="src/algorithm.cpp" />
+		<Unit filename="src/bitvector.cpp" />
+		<Unit filename="src/gene.cpp" />
+		<Unit filename="src/genome.cpp" />
+		<Unit filename="src/genomeTarget.cpp" />
+		<Unit filename="src/genomeTxBuffer.cpp" />
+		<Unit filename="src/main.cpp" />
+		<Unit filename="src/population.cpp" />
+		<Unit filename="src/subPopulation.cpp" />
+		<Unit filename="src/utils.cpp" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
