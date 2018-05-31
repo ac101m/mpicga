@@ -1,8 +1,10 @@
-// This sources header
+// Standard headers
+#include <iostream>
+
+
+// Project headers
 #include "mpicga.hpp"
 
-// CPP
-#include <iostream>
 
 
 // Constructor

@@ -1,22 +1,19 @@
-// CPP
+// Standard headers
 #include <iostream>
 #include <random>
 #include <functional>
 using namespace std;
 
 
-// Project related stuff
+// Project headers
+#include "mpi.h"
 #include "config.hpp"
 #include "utils.hpp"
 #include "mpicga.hpp"
 #include "bitVector.hpp"
 
 
-// MPI
-#include "mpi.h"
-
-
-// Input width of multiplier pattern
+// Random ass temporary constants
 //#define ADDER_INPUT_WIDTH 4
 #define MULTIPLIER_INPUT_WIDTH 4
 

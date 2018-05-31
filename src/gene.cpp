@@ -1,15 +1,12 @@
-// This sources header
-#include "mpicga.hpp"
-
-
-// Standard C stuff
+// Standard headers
 #include <iostream>
 #include <vector>
 using namespace std;
 
 
-// This projects headers
+// Project headers
 #include "utils.hpp"
+#include "mpicga.hpp"
 
 
 

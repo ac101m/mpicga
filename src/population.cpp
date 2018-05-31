@@ -1,21 +1,12 @@
-// This sources main header
-#include "mpicga.hpp"
-
-
-// MPI header
-#include "mpi.h"
-
-
-// C
+// Standard headers
 #include "unistd.h"
-
-
-// CPP
 #include <iostream>
 using namespace std;
 
 
-// My headers
+// Project headers
+#include "mpicga.hpp"
+#include "mpi.h"
 #include "utils.hpp"
 
 

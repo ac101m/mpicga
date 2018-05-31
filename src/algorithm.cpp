@@ -1,13 +1,10 @@
-// This sources main header
-#include "mpicga.hpp"
-
-
-// CPP
+// Standard headers
 #include <iostream>
 using namespace std;
 
 
-// My headers
+// Project headers
+#include "mpicga.hpp"
 #include "utils.hpp"
 
 

@@ -1,14 +1,15 @@
-// This sources header
-#include "bitVector.hpp"
-
-
-// Standard C stuff
+// Standard headers
 #include "stdint.h"
 #include <iostream>
 #include <string>
 #include <sstream>
 #include <iomanip>
 using namespace std;
+
+
+// Project headers
+#include "bitVector.hpp"
+
 
 
 // Basic empty constructor
