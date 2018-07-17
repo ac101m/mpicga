@@ -75,11 +75,12 @@ int main(int argc, char **argv) {
 
 
     // Subpopulation distribution across ranks counts
-    uint32_t subPopulationCount = 24;
-    uint32_t totalGenerations = 32 * 32 * 480;
+    uint32_t subPopulationCount = 240;
+    uint32_t totalGenerations = 256 * 128 * 960;
     uint32_t generationsPerSubPopulation = totalGenerations / subPopulationCount;
-    uint32_t generationsPerCycle = 1024;
+    uint32_t generationsPerCycle = 2048;
     uint32_t cycleCount = (totalGenerations / subPopulationCount) / generationsPerCycle;
+    uint32_t threadsPerProcess = 12;
 
 
     // zeroth rank, print out run information
@@ -131,7 +132,7 @@ int main(int argc, char **argv) {
     MPI_Barrier(MPI_COMM_WORLD);
 
 
-    // Print ze timer
+    // Print time difference
     if(myRank() == 0) {
         cout << "\nTotal execution time: " << endTime - startTime << "s\n";
     }

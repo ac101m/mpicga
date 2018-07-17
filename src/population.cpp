@@ -103,6 +103,7 @@ void population::iterateSubPopulations(genomeTarget& target, uint32_t(*ff)(genom
     vector<uint32_t> localSubPopulationIndices = this->getLocalSubPopulationIndices();
 
     // Iterate all local subpopulations
+    #pragma omp parallel for num_threads(12)
     for(unsigned i = 0; i < localSubPopulationIndices.size(); i++) {
         this->subPopulations[localSubPopulationIndices[i]].iterate(target, ff, n);
     }
@@ -247,7 +248,7 @@ void population::synchroniseRankMap(void) {
     // Parse the recieve buffer
     this->parseRankMapRxBuffer(rxBuffer);
 
-    // Free the transimt and recieve buffers (no memory leak pls)
+    // Free the transimt and recieve buffers
     delete [] txBuffer;
     delete [] rxBuffer;
 }

@@ -7,7 +7,7 @@
 		<Option compiler="mpich" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/mpiga" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Debug/mpicga" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="mpich" />
@@ -16,7 +16,7 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/mpiga" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Release/mpicga" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="mpich" />
@@ -31,8 +31,12 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-std=c++11" />
+			<Add option="-fopenmp" />
 			<Add directory="include" />
 		</Compiler>
+		<Linker>
+			<Add library="gomp" />
+		</Linker>
 		<Unit filename="include/bitVector.hpp" />
 		<Unit filename="include/config.hpp" />
 		<Unit filename="include/mpicga.hpp" />
