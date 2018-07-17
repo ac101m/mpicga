@@ -4,7 +4,7 @@
 	"mpicga.hpp"
 	"utils.hpp"
 
-1531763403 /home/ac/Export.SHOOTEMNOW/projects/mpicga/include/mpicga.hpp
+1531864765 /home/ac/Export.SHOOTEMNOW/projects/mpicga/include/mpicga.hpp
 	"stdint.h"
 	<vector>
 	<map>
@@ -45,8 +45,9 @@
 	"utils.hpp"
 	"mpicga.hpp"
 
-1527796689 source:/home/ac/Export.SHOOTEMNOW/projects/mpicga/src/genomeTarget.cpp
+1531865265 source:/home/ac/Export.SHOOTEMNOW/projects/mpicga/src/genomeTarget.cpp
 	<iostream>
+	<fstream>
 	"mpicga.hpp"
 
 1527796650 source:/home/ac/Export.SHOOTEMNOW/projects/mpicga/src/genomeTxBuffer.cpp
@@ -54,7 +55,7 @@
 	"mpicga.hpp"
 	"utils.hpp"
 
-1531512796 source:/home/ac/Export.SHOOTEMNOW/projects/mpicga/src/main.cpp
+1531865403 source:/home/ac/Export.SHOOTEMNOW/projects/mpicga/src/main.cpp
 	<iostream>
 	<random>
 	<functional>
@@ -64,7 +65,7 @@
 	"mpicga.hpp"
 	"bitVector.hpp"
 
-1527778046 /home/ac/Export.SHOOTEMNOW/projects/mpicga/include/config.hpp
+1531865507 /home/ac/Export.SHOOTEMNOW/projects/mpicga/include/config.hpp
 
 1531524957 source:/home/ac/Export.SHOOTEMNOW/projects/mpicga/src/population.cpp
 	"unistd.h"

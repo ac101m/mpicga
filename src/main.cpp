@@ -42,36 +42,8 @@ int main(int argc, char **argv) {
     MPI_Init(&argc, &argv);
 
 
-    // Multiplier pattern
-#ifdef MULTIPLIER_INPUT_WIDTH
-    genomeTarget target(MULTIPLIER_INPUT_WIDTH * 2, MULTIPLIER_INPUT_WIDTH * 2);
-    for(unsigned i = 0; i < 0x01 << (MULTIPLIER_INPUT_WIDTH * 2); i++) {
-
-        // Calculate input and output words
-        uint32_t mask = (0x01 << MULTIPLIER_INPUT_WIDTH) - 1;
-        uint32_t a = i & mask;
-        uint32_t b = (i >> MULTIPLIER_INPUT_WIDTH) & mask;
-
-        // Add a pattern to the pattern map
-        target.addPattern(i, a * b);
-    }
-#endif // MULTIPLIER
-
-
-    // Adder pattern
-#ifdef ADDER_INPUT_WIDTH
-    genomeTarget target(ADDER_INPUT_WIDTH * 2, ADDER_INPUT_WIDTH + 1);
-    for(unsigned i = 0; i < 0x01 << (ADDER_INPUT_WIDTH * 2); i++) {
-
-        // Calculate input and output words
-        uint32_t mask = (0x01 << ADDER_INPUT_WIDTH) - 1;
-        uint32_t a = i & mask;
-        uint32_t b = (i >> ADDER_INPUT_WIDTH) & mask;
-
-        // Add a pattern to the pattern map
-        target.addPattern(i, a + b);
-    }
-#endif // ADDER
+    // Load the pattern from file
+    genomeTarget target(DEFAULT_PATTERN_PATH);
 
 
     // Subpopulation distribution across ranks counts
@@ -80,7 +52,6 @@ int main(int argc, char **argv) {
     uint32_t generationsPerSubPopulation = totalGenerations / subPopulationCount;
     uint32_t generationsPerCycle = 2048;
     uint32_t cycleCount = (totalGenerations / subPopulationCount) / generationsPerCycle;
-    uint32_t threadsPerProcess = 12;
 
 
     // zeroth rank, print out run information

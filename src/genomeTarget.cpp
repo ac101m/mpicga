@@ -1,5 +1,6 @@
 // Standard headers
 #include <iostream>
+#include <fstream>
 
 
 // Project headers
@@ -36,6 +37,20 @@ genomeTarget::genomeTarget(uint32_t inputCount, uint32_t outputCount) {
     this->outputs.reserve(outputCount);
     for(unsigned i = 0; i < outputCount; i++) {
         this->outputs.push_back(bitVector(0));
+    }
+}
+
+
+// Constructor from file
+genomeTarget::genomeTarget(string path) {
+
+    // Open the file
+    ifstream fp(path);
+
+    // Make sure the file actually opens
+    if(!fp.is_open()) {
+        cout << "Error, could not open pattern specification file.\n";
+        exit(1);
     }
 }
 

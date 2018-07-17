@@ -105,7 +105,8 @@ class genomeTarget {
 
     public:
 
-        genomeTarget(uint32_t inputCount, uint32_t outputCount);    // Constructor
+        genomeTarget(uint32_t inputCount, uint32_t outputCount);    // Constructor, empty
+        genomeTarget(string path);                                  // Constructor, from file
         void addPattern(uint32_t iPattern, uint32_t oPattern);      // Add a pattern to the target
         void assertValid(void);                 // Errors if target pattern is not valid
 
