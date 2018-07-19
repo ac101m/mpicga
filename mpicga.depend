@@ -65,7 +65,7 @@
 	"mpicga.hpp"
 	"bitVector.hpp"
 
-1531941106 /home/ac/Export.SHOOTEMNOW/projects/mpicga/include/config.hpp
+1532013811 /home/ac/Export.SHOOTEMNOW/projects/mpicga/include/config.hpp
 
 1532011748 source:/home/ac/Export.SHOOTEMNOW/projects/mpicga/src/population.cpp
 	"unistd.h"
@@ -79,7 +79,7 @@
 	"mpicga.hpp"
 	"utils.hpp"
 
-1531924380 source:/home/ac/Export.SHOOTEMNOW/projects/mpicga/src/utils.cpp
+1532027230 source:/home/ac/Export.SHOOTEMNOW/projects/mpicga/src/utils.cpp
 	"utils.hpp"
 	<sstream>
 	<iostream>
@@ -92,7 +92,7 @@
 	<sstream>
 	"truthTable.hpp"
 
-1531961068 /home/ac/Export.SHOOTEMNOW/projects/mpicga/include/truthTable.hpp
+1532027596 /home/ac/Export.SHOOTEMNOW/projects/mpicga/include/truthTable.hpp
 	<map>
 	<vector>
 	<string>
@@ -107,8 +107,222 @@
 	<iomanip>
 	"bitVector.hpp"
 
-1531965369 source:/home/ac/Export.SHOOTEMNOW/projects/mpicga/libs/truthTable.cpp
+1532029470 source:/home/ac/Export.SHOOTEMNOW/projects/mpicga/libs/truthTable.cpp
 	<iostream>
 	<sstream>
+	"truthTable.hpp"
+
+1532031243 source:/home/ac/Export.SHOOTEMNOW/projects/mpicga/utils/test.cpp
+	<exception>
+	<iostream>
+	"truthTable.hpp"
+	"catch.hpp"
+
+1532017525 /home/ac/Export.SHOOTEMNOW/projects/mpicga/include/catch.hpp
+	<TargetConditionals.h>
+	<iosfwd>
+	<string>
+	<cstdint>
+	<vector>
+	<memory>
+	<cstddef>
+	<string>
+	<iosfwd>
+	<vector>
+	<cstddef>
+	<type_traits>
+	<string>
+	<iosfwd>
+	<cstddef>
+	<ostream>
+	<utility>
+	<tuple>
+	<ctime>
+	<ratio>
+	<chrono>
+	<iosfwd>
+	<string>
+	<string>
+	<cstddef>
+	<string>
+	<cstdint>
+	<string>
+	<cstdint>
+	<string>
+	<string>
+	<memory>
+	<exception>
+	<string>
+	<vector>
+	<type_traits>
+	<stdexcept>
+	<string>
+	<iosfwd>
+	<string>
+	<vector>
+	<type_traits>
+	<cmath>
+	<functional>
+	<string>
+	<string>
+	<algorithm>
+	<string>
+	<vector>
+	<memory>
+	<string>
+	<string>
+	<vector>
+	<memory>
+	<string>
+	<iosfwd>
+	<string>
+	<vector>
+	<memory>
+	<memory>
+	<vector>
+	<string>
+	<string>
+	<string>
+	<iosfwd>
+	<map>
+	<set>
+	<memory>
+	<algorithm>
+	<cstring>
+	<cfloat>
+	<cstdio>
+	<cassert>
+	<memory>
+	<ostream>
+	<vector>
+	<string>
+	<vector>
+	<memory>
+	<cmath>
+	<limits>
+	<memory>
+	<signal.h>
+	<AfxWin.h>
+	<windows.h>
+	<signal.h>
+	<string>
+	<optional>
+	<cassert>
+	<ostream>
+	<sstream>
+	<vector>
+	<memory>
+	<set>
+	<algorithm>
+	<fstream>
+	<ctime>
+	<cstring>
+	<ostream>
+	<stdexcept>
+	<sstream>
+	<unistd.h>
+	<string>
+	<assert.h>
+	<stdbool.h>
+	<sys/types.h>
+	<unistd.h>
+	<sys/sysctl.h>
+	<cstddef>
+	<ostream>
+	<fstream>
+	<string>
+	<cerrno>
+	<vector>
+	<string>
+	<memory>
+	<crtdbg.h>
+	<set>
+	<limits>
+	<algorithm>
+	<iomanip>
+	<string>
+	<cstdlib>
+	<cstdint>
+	<cstring>
+	<stdexcept>
+	<regex>
+	<cstdio>
+	<iosfwd>
+	<string>
+	<cstdio>
+	<cstring>
+	<fstream>
+	<sstream>
+	<stdexcept>
+	<io.h>
+	<unistd.h>
+	<algorithm>
+	<cstdlib>
+	<vector>
+	<set>
+	<algorithm>
+	<ios>
+	<map>
+	<string>
+	<map>
+	<vector>
+	<exception>
+	<cassert>
+	<algorithm>
+	<sstream>
+	<memory>
+	<iosfwd>
+	<cstdlib>
+	<iomanip>
+	<cstdio>
+	<iostream>
+	<fstream>
+	<sstream>
+	<vector>
+	<memory>
+	<algorithm>
+	<ostream>
+	<cstring>
+	<cctype>
+	<ostream>
+	<cstring>
+	<cstdint>
+	<sstream>
+	<cctype>
+	<exception>
+	<algorithm>
+	<sstream>
+	<sstream>
+	<algorithm>
+	<cassert>
+	<stdexcept>
+	<memory>
+	<sstream>
+	<algorithm>
+	<string>
+	<vector>
+	<memory>
+	<chrono>
+	<cmath>
+	<iomanip>
+	<exception>
+	<ostream>
+	<sstream>
+	<iomanip>
+	<cstring>
+	<cfloat>
+	<cstdio>
+	<cassert>
+	<memory>
+	<cfloat>
+	<cstdio>
+	<cassert>
+	<sstream>
+	<ctime>
+	<algorithm>
+	<cassert>
+
+1532032003 source:/home/ac/Export.SHOOTEMNOW/projects/mpicga/utils/patternGen.cpp
+	<iostream>
 	"truthTable.hpp"
 

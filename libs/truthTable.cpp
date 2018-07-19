@@ -12,7 +12,7 @@
 
 // Static pars
 const string TTfp::whiteSpaceChars = " \t\n";
-const string TTfp::numberChars = "0123456789abcdef";
+const string TTfp::numberChars = "0123456789abcdefABCDEF";
 const string TTfp::nameChars = "ABCDEFGHIJKLMNOPGRSTUVWXYZabcdefghijklmnopqrstuvwxyz_0123456789";
 
 
@@ -24,7 +24,7 @@ TTfp::TTfp(string path) {
 
     // Check that the file is indeed open
     if(!fp.is_open()) {
-        throw(runtime_error("Could not open file '" + path + "'."));
+        throw(runtime_error("Could not open file '" + path + "' for reading."));
     }
 
     // Reset line and column info
@@ -250,29 +250,30 @@ truthTable::truthTable(string path) {
         } else if(TTfp::nameChars.find(fp.current()) != string::npos) {
             string ident = fp.get(TTfp::nameChars);
             if(ident == "inputCount" || ident == "iCount") {
-                if(!inputCount) {
+                if(inputCount) {
+                    throw(truthTableParseException("Input count already specified."));
+                } else {
                     inputCount = fp.getNumber(10);
                     fp.skip(TTfp::whiteSpaceChars);
                     fp.assertCurrent(';');
                     fp.advance();
-                    cout << "input count: " << inputCount << "\n";
-                } else throw(truthTableParseException("Input count already specified."));
+                }
 
             } else if(ident == "outputCount" || ident == "oCount") {
-                if(!outputCount) {
+                if(outputCount) {
+                    throw(truthTableParseException("Output count already specified."));
+                } else {
                     outputCount = fp.getNumber(10);
                     fp.skip(TTfp::whiteSpaceChars);
                     fp.assertCurrent(';');
                     fp.advance();
-                    cout << "output count: " << outputCount << "\n";
-                } else throw(truthTableParseException("Output count already specified."));
+                }
 
             } else if(ident == "radix") {
                 radix = fp.getNumber(10);
                 fp.skip(TTfp::whiteSpaceChars);
                 fp.assertCurrent(';');
                 fp.advance();
-                cout << "radix: " << radix << "\n";
 
             } else if(ident == "pattern") {
                 if(radix) {
@@ -396,7 +397,7 @@ void truthTable::addPattern(uint32_t iPattern, uint32_t oPattern) {
     }
 
     // Add pattern to input vectors
-    for(unsigned i = 0; i < this->inputs.size(); i++) {
+    for(unsigned i = 0; i < this->getInputCount(); i++) {
         if(iPatternMasked & (0x01 << i)) {
             this->inputs[i].appendBit(1);
         } else {
@@ -405,7 +406,7 @@ void truthTable::addPattern(uint32_t iPattern, uint32_t oPattern) {
     }
 
     // Add to output vectors
-    for(unsigned i = 0; i < this->outputs.size(); i++) {
+    for(unsigned i = 0; i < this->getOutputCount(); i++) {
         if(oPatternMasked & (0x01 << i)) {
             this->outputs[i].appendBit(1);
         } else {
@@ -415,6 +416,36 @@ void truthTable::addPattern(uint32_t iPattern, uint32_t oPattern) {
 
     // Add new pattern to pattern map
     this->patternMap.insert(make_pair(iPatternMasked, oPatternMasked));
+}
+
+
+// Add a pattern as a pair
+void truthTable::addPattern(pair<uint32_t, uint32_t> pattern) {
+    this->addPattern(pattern.first, pattern.second);
+}
+
+
+// Get a pattern from the
+pair<uint32_t, uint32_t> truthTable::getPattern(uint32_t index) {
+    uint32_t inputBitmap = 0;
+    uint32_t outputBitmap = 0;
+
+    // Get input bitmap
+    for(unsigned i = 0; i < this->getInputCount(); i++) {
+        if(this->inputs[i].getBit(index)) {
+            inputBitmap |= 0x01 << i;
+        }
+    }
+
+    // Get output bitmap
+    for(unsigned i = 0; i < this->getOutputCount(); i++) {
+        if(this->outputs[i].getBit(index)) {
+            outputBitmap |= 0x01 << i;
+        }
+    }
+
+    // Make the pair and return
+    return make_pair(inputBitmap, outputBitmap);
 }
 
 
@@ -430,7 +461,48 @@ uint64_t truthTable::getOutputBitmap(uint32_t outputIndex, uint32_t bitmapIndex)
 }
 
 
-//
+// Gets bitmap mask for end bitmaps
 uint64_t truthTable::getBitmapMask(uint32_t bitmapIndex) {
     return this->inputs[0].bitmapMask(bitmapIndex);
+}
+
+
+// Writes the truth table to a file with the specified radix
+void truthTable::writeToFile(string path, uint32_t radix) {
+
+    // Open file for writing
+    ofstream fp(path);
+
+    // Check that the file is indeed open
+    if(!fp.is_open()) {
+        throw(runtime_error("Could not open file '" + path + "' for writing."));
+    }
+
+    // Write radix and input/output count
+    fp << "radix " << 2 << ";\n";
+    fp << "iCount " << this->getInputCount() << ";\n";
+    fp << "oCount " << this->getOutputCount() << ";\n";
+
+    // Write patterns to file
+    for(unsigned i = 0; i < this->getPatternCount(); i++) {
+        pair<uint32_t, uint32_t> pattern = this->getPattern(i);
+        fp << "pattern ";
+        for(int j = this->getInputCount() - 1; j > -1; j--) {
+            if(pattern.first & (0x01 << j)) fp << "1"; else fp << "0";
+        }
+        fp << ":";
+        for(int j = this->getOutputCount() - 1; j > -1; j--) {
+            if(pattern.second & (0x01 << j)) fp << "1"; else fp << "0";
+        }
+        fp << ";\n";
+    }
+
+    // Close the file
+    fp.close();
+}
+
+
+// Write to file with default parameters
+void truthTable::writeToFile(string path) {
+    this->writeToFile(path, 2);
 }

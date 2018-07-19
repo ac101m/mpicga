@@ -69,17 +69,26 @@ class truthTable {
         truthTable(string path);                                // Constructor, from file
         truthTable(uint32_t inputCount, uint32_t outputCount);  // Constructor, empty
         void addPattern(uint32_t iPattern, uint32_t oPattern);  // Add a pattern to the target
+        void addPattern(pair<uint32_t, uint32_t> pattern);      // Add a pattern to the target
         void assertValid(void);                                 // Errors if table is not valid
 
         // Get for input and output bit counts
         uint32_t getInputCount(void) {return this->inputs.size();}
         uint32_t getOutputCount(void) {return this->outputs.size();}
 
-        // Gets and sets for
+        // Gets for patterns and pattern count
+        uint32_t getPatternCount(void) {return this->patternMap.size();}
+        pair<uint32_t, uint32_t> getPattern(uint32_t index);
+
+        // Gets and sets for various bitmap related stuff
         uint32_t getBitmapCount(void) {return this->inputs[0].getBitmapCount();}
         uint64_t getInputBitmap(uint32_t inputIndex, uint32_t bitmapIndex);
         uint64_t getOutputBitmap(uint32_t outputIndex, uint32_t bitmapIndex);
         uint64_t getBitmapMask(uint32_t bitmapIndex);
+
+        // File writing routines
+        void writeToFile(string path, uint32_t radix);
+        void writeToFile(string path);
 };
 
 

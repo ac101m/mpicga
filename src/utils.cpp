@@ -16,7 +16,6 @@
 #include "mpi.h"
 
 
-
 // Naive set bit counter, will optimise later (maybe)
 uint32_t countBits(uint64_t data) {
     uint32_t bitCount = 0;
@@ -99,3 +98,4 @@ void warn(string msg) {
         cout << "\n";
     }
 }
+

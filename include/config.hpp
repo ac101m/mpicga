@@ -2,7 +2,7 @@
 #define CONFIG_HPP
 
 
-// Default paths
+// Default configurations
 #define DEFAULT_PATTERN_PATH "target.pat"
 
 
