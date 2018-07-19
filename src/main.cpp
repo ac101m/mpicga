@@ -47,10 +47,10 @@ int main(int argc, char **argv) {
 
 
     // Subpopulation distribution across ranks counts
-    uint32_t subPopulationCount = 480;
-    uint32_t totalGenerations = 1024 * 256 * 960;
+    uint32_t subPopulationCount = 120;
+    uint32_t totalGenerations = 1024 * 1024 * 960;
     uint32_t generationsPerSubPopulation = totalGenerations / subPopulationCount;
-    uint32_t generationsPerCycle = 32768;
+    uint32_t generationsPerCycle = 4096;
     uint32_t cycleCount = (totalGenerations / subPopulationCount) / generationsPerCycle;
 
 
@@ -70,7 +70,7 @@ int main(int argc, char **argv) {
 
 
     // Create a population and start timing
-    population p(subPopulationCount, 4, 512);
+    population p(subPopulationCount, 4, 2048);
 
 
     // Population algorithm settings
