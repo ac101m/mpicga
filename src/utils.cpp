@@ -71,7 +71,7 @@ string rankString(void) {
 
 
 // Oh shit son, something done fucked up
-void errorOut(string msg) {
+void err(string msg) {
 
     // Get processor name & rank string
     cout << rankString() << " " << msg;
@@ -89,7 +89,7 @@ void errorOut(string msg) {
 
 
 // Oh shit son, something done fucked up
-void warningOut(string msg) {
+void warn(string msg) {
 
     // Get processor name & rank string
     cout << rankString() << " " << msg;

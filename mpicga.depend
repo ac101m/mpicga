@@ -4,7 +4,7 @@
 	"mpicga.hpp"
 	"utils.hpp"
 
-1531864765 /home/ac/Export.SHOOTEMNOW/projects/mpicga/include/mpicga.hpp
+1531935556 /home/ac/Export.SHOOTEMNOW/projects/mpicga/include/mpicga.hpp
 	"stdint.h"
 	<vector>
 	<map>
@@ -13,14 +13,14 @@
 	<random>
 	<functional>
 	"mpi.h"
-	"bitVector.hpp"
+	"truthTable.hpp"
 
 1527778046 /home/ac/Export.SHOOTEMNOW/projects/mpicga/include/bitVector.hpp
 	"stdint.h"
 	<vector>
 	<string>
 
-1527778046 /home/ac/Export.SHOOTEMNOW/projects/mpicga/include/utils.hpp
+1531924420 /home/ac/Export.SHOOTEMNOW/projects/mpicga/include/utils.hpp
 	"stdint.h"
 	<string>
 
@@ -32,30 +32,30 @@
 	<iomanip>
 	"bitVector.hpp"
 
-1527796761 source:/home/ac/Export.SHOOTEMNOW/projects/mpicga/src/gene.cpp
+1531924433 source:/home/ac/Export.SHOOTEMNOW/projects/mpicga/src/gene.cpp
 	<iostream>
 	<vector>
 	"utils.hpp"
 	"mpicga.hpp"
 
-1527796739 source:/home/ac/Export.SHOOTEMNOW/projects/mpicga/src/genome.cpp
+1531927404 source:/home/ac/Export.SHOOTEMNOW/projects/mpicga/src/genome.cpp
 	<iostream>
 	<vector>
 	"bitVector.hpp"
 	"utils.hpp"
 	"mpicga.hpp"
 
-1531865265 source:/home/ac/Export.SHOOTEMNOW/projects/mpicga/src/genomeTarget.cpp
+1531927183 source:/home/ac/Export.SHOOTEMNOW/projects/mpicga/src/genomeTarget.cpp
 	<iostream>
 	<fstream>
 	"mpicga.hpp"
 
-1527796650 source:/home/ac/Export.SHOOTEMNOW/projects/mpicga/src/genomeTxBuffer.cpp
+1531924447 source:/home/ac/Export.SHOOTEMNOW/projects/mpicga/src/genomeTxBuffer.cpp
 	<iostream>
 	"mpicga.hpp"
 	"utils.hpp"
 
-1531865403 source:/home/ac/Export.SHOOTEMNOW/projects/mpicga/src/main.cpp
+1532009982 source:/home/ac/Export.SHOOTEMNOW/projects/mpicga/src/main.cpp
 	<iostream>
 	<random>
 	<functional>
@@ -65,25 +65,50 @@
 	"mpicga.hpp"
 	"bitVector.hpp"
 
-1531865507 /home/ac/Export.SHOOTEMNOW/projects/mpicga/include/config.hpp
+1531941106 /home/ac/Export.SHOOTEMNOW/projects/mpicga/include/config.hpp
 
-1531524957 source:/home/ac/Export.SHOOTEMNOW/projects/mpicga/src/population.cpp
+1532011748 source:/home/ac/Export.SHOOTEMNOW/projects/mpicga/src/population.cpp
 	"unistd.h"
 	<iostream>
 	"mpicga.hpp"
 	"mpi.h"
 	"utils.hpp"
 
-1527796610 source:/home/ac/Export.SHOOTEMNOW/projects/mpicga/src/subPopulation.cpp
+1531927549 source:/home/ac/Export.SHOOTEMNOW/projects/mpicga/src/subPopulation.cpp
 	<iostream>
 	"mpicga.hpp"
 	"utils.hpp"
 
-1527778046 source:/home/ac/Export.SHOOTEMNOW/projects/mpicga/src/utils.cpp
+1531924380 source:/home/ac/Export.SHOOTEMNOW/projects/mpicga/src/utils.cpp
 	"utils.hpp"
 	<sstream>
 	<iostream>
 	"stdlib.h"
 	"stdint.h"
 	"mpi.h"
+
+1531965369 source:/home/ac/Export.SHOOTEMNOW/projects/mpicga/src/truthTable.cpp
+	<iostream>
+	<sstream>
+	"truthTable.hpp"
+
+1531961068 /home/ac/Export.SHOOTEMNOW/projects/mpicga/include/truthTable.hpp
+	<map>
+	<vector>
+	<string>
+	<fstream>
+	"bitVector.hpp"
+
+1527796788 source:/home/ac/Export.SHOOTEMNOW/projects/mpicga/libs/bitvector.cpp
+	"stdint.h"
+	<iostream>
+	<string>
+	<sstream>
+	<iomanip>
+	"bitVector.hpp"
+
+1531965369 source:/home/ac/Export.SHOOTEMNOW/projects/mpicga/libs/truthTable.cpp
+	<iostream>
+	<sstream>
+	"truthTable.hpp"
 

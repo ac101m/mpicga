@@ -64,7 +64,7 @@ subPopulation::subPopulation(subPopulationAlgorithm algorithm) {
 
 // Initialisation method
 // Initialises subpopulation on indicated process
-void subPopulation::initialise(genomeTarget& target, uint32_t(*ff)(genomePerf_t), int32_t domainIndex) {
+void subPopulation::initialise(truthTable& target, uint32_t(*ff)(genomePerf_t), int32_t domainIndex) {
 
     // Initialise comm world address
     this->domainIndex = domainIndex;
@@ -101,7 +101,7 @@ void subPopulation::initialise(genomeTarget& target, uint32_t(*ff)(genomePerf_t)
 
 // Initialisation method
 // Initialises on process zero
-void subPopulation::initialise(genomeTarget& target, uint32_t(*ff)(genomePerf_t)) {
+void subPopulation::initialise(truthTable& target, uint32_t(*ff)(genomePerf_t)) {
 
     // Initialise as if on rank 0
     this->initialise(target, ff, 0);
@@ -176,7 +176,7 @@ void subPopulation::sortRankMap(void) {
 
 
 // Updates the rankmap
-void subPopulation::updateRankMap(genomeTarget& target, uint32_t(*ff)(genomePerf_t)) {
+void subPopulation::updateRankMap(truthTable& target, uint32_t(*ff)(genomePerf_t)) {
 
     // Update the rankmap fitness values
     for(unsigned i = 0; i < this->rankMap.size(); i++) {
@@ -190,7 +190,7 @@ void subPopulation::updateRankMap(genomeTarget& target, uint32_t(*ff)(genomePerf
 
 
 // Iterate the population using specific mutation specs
-void subPopulation::iterate(genomeTarget& target, uint32_t(*ff)(genomePerf_t)) {
+void subPopulation::iterate(truthTable& target, uint32_t(*ff)(genomePerf_t)) {
 
     // Assert that the population is initialised
     this->assertInitialised("Error, attempted to iterate uninitialised subpopulation.");
@@ -225,7 +225,7 @@ void subPopulation::iterate(genomeTarget& target, uint32_t(*ff)(genomePerf_t)) {
 
 
 // Iterates the population n times
-void subPopulation::iterate(genomeTarget& target, uint32_t(*ff)(genomePerf_t), uint32_t n) {
+void subPopulation::iterate(truthTable& target, uint32_t(*ff)(genomePerf_t), uint32_t n) {
 
     // Iterate the population n times
     for(unsigned i = 0; i < n; i++) {
@@ -238,7 +238,7 @@ void subPopulation::iterate(genomeTarget& target, uint32_t(*ff)(genomePerf_t), u
 // Throws an error if the subpopulation is not initialised
 void subPopulation::assertInitialised(string msg) {
     if(!this->initialised) {
-        errorOut(msg);
+        err(msg);
     }
 }
 
@@ -247,7 +247,7 @@ void subPopulation::assertInitialised(string msg) {
 // Throws an error of the calling rank is not the subpopulation local rank
 void subPopulation::assertLocal(string msg) {
     if(!this->local) {
-        errorOut(msg);
+        err(msg);
     }
 }
 
@@ -394,7 +394,7 @@ vector<genome> subPopulation::getGenomes(void) {
 
 
 // Print out the subpopulation rankmap
-void subPopulation::printRankMap(genomeTarget& target) {
+void subPopulation::printRankMap(truthTable& target) {
 
     // If this isn't local, do nothing
     if(!this->isLocal()) {

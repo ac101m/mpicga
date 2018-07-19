@@ -31,7 +31,7 @@ void genomeTransmissionBuffer::append(geneNetworkFrame_t g) {
 
     // Check that buffer is not full
     if(currentGenes == maxGenes) {
-        errorOut("Error, genome transmit buffer overflow (append).");
+        err("Error, genome transmit buffer overflow (append).");
     }
 
     // Position in the buffer to start writing at
@@ -93,10 +93,10 @@ void genomeTransmissionBuffer::receive(int32_t source, int32_t tag) {
 
     // Confirm that incoming buffer is not malformed
     if(byteCount % sizeof(geneNetworkFrame_t) != 0) {
-        errorOut("Error, recieve into buffer of incorrect size.");
+        err("Error, recieve into buffer of incorrect size.");
     } else {
         if(this->maxGenes != (byteCount / sizeof(geneNetworkFrame_t))) {
-            errorOut("Error, genome recieve buffer is of incorrect length.");
+            err("Error, genome recieve buffer is of incorrect length.");
         } else {
             this->currentGenes = byteCount / sizeof(geneNetworkFrame_t);
         }

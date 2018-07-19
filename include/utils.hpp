@@ -17,11 +17,11 @@ string rankString(void);
 
 
 // Oh shit son, something done fucked up
-void errorOut(string msg);
+void err(string msg);
 
 
 // Ehh, something is a bit squiffy
-void warningOut(string msg);
+void warn(string msg);
 
 
 // Get the address of this rank

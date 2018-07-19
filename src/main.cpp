@@ -43,14 +43,14 @@ int main(int argc, char **argv) {
 
 
     // Load the pattern from file
-    genomeTarget target(DEFAULT_PATTERN_PATH);
+    truthTable target(DEFAULT_PATTERN_PATH);
 
 
     // Subpopulation distribution across ranks counts
     uint32_t subPopulationCount = 240;
-    uint32_t totalGenerations = 256 * 128 * 960;
+    uint32_t totalGenerations = 128 * 128 * 960;
     uint32_t generationsPerSubPopulation = totalGenerations / subPopulationCount;
-    uint32_t generationsPerCycle = 2048;
+    uint32_t generationsPerCycle = 1024;
     uint32_t cycleCount = (totalGenerations / subPopulationCount) / generationsPerCycle;
 
 

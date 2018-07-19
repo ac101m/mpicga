@@ -2,11 +2,8 @@
 #define MPIGA_H
 
 
-// C
+// Standard stuff
 #include "stdint.h"
-
-
-// CPP
 #include <vector>
 #include <map>
 #include <string>
@@ -16,12 +13,9 @@
 using namespace std;
 
 
-// MPI
+// Project headers
 #include "mpi.h"
-
-
-// My headers
-#include "bitVector.hpp"
+#include "truthTable.hpp"
 
 
 // Class pre-declarations
@@ -93,36 +87,6 @@ class gene {
 
 
 
-//========[GENOME TARGET PATTERN]================================================================//
-
-// Class to represent input and output patterns for a genome
-class genomeTarget {
-    private:
-
-        map<uint32_t, uint32_t> patternMap;     // Map of patterns, used for error checking
-        vector<bitVector> inputs;               // Vectors containing input patterns
-        vector<bitVector> outputs;              // Vectors containing output patterns
-
-    public:
-
-        genomeTarget(uint32_t inputCount, uint32_t outputCount);    // Constructor, empty
-        genomeTarget(string path);                                  // Constructor, from file
-        void addPattern(uint32_t iPattern, uint32_t oPattern);      // Add a pattern to the target
-        void assertValid(void);                 // Errors if target pattern is not valid
-
-        // Get for input and output bit counts
-        uint32_t getInputCount(void) {return this->inputs.size();}
-        uint32_t getOutputCount(void) {return this->outputs.size();}
-
-        // Gets and sets for
-        uint32_t getBitmapCount(void) {return this->inputs[0].getBitmapCount();}
-        uint64_t getInputBitmap(uint32_t inputIndex, uint32_t bitmapIndex);
-        uint64_t getOutputBitmap(uint32_t outputIndex, uint32_t bitmapIndex);
-        uint64_t getBitmapMask(uint32_t bitmapIndex);
-};
-
-
-
 //========[GENOME]===============================================================================//
 
 // Struct to contain genome performance data
@@ -160,7 +124,7 @@ class genome {
     private:
 
         // Update performance data
-        void updatePerfData(genomeTarget& target);
+        void updatePerfData(truthTable& target);
 
     public:
 
@@ -170,7 +134,7 @@ class genome {
         // Gets for genome data
         uint32_t getGeneCount(void) {return this->genes.size();}
         vector<gene> getGenes(void) {return this->genes;}
-        genomePerf_t getPerfData(genomeTarget& target);
+        genomePerf_t getPerfData(truthTable& target);
 
         // Operators
         void mutate(subPopulationAlgorithm& behaviour);
@@ -373,15 +337,15 @@ class subPopulation {
         subPopulationAlgorithm& getAlgorithm(void) {return this->algorithm;}
 
         // Initialise routine
-        void initialise(genomeTarget& target, uint32_t(*ff)(genomePerf_t));
-        void initialise(genomeTarget& target, uint32_t(*ff)(genomePerf_t), int32_t commWorldAddress);
+        void initialise(truthTable& target, uint32_t(*ff)(genomePerf_t));
+        void initialise(truthTable& target, uint32_t(*ff)(genomePerf_t), int32_t commWorldAddress);
 
         // Returns true if caller is the local process
         bool isLocal(void);
 
         // Iterate the population using specific mutation specs
-        void iterate(genomeTarget& target, uint32_t(*ff)(genomePerf_t));
-        void iterate(genomeTarget& target, uint32_t(*ff)(genomePerf_t), uint32_t n);
+        void iterate(truthTable& target, uint32_t(*ff)(genomePerf_t));
+        void iterate(truthTable& target, uint32_t(*ff)(genomePerf_t), uint32_t n);
 
         // Get subpopulation performance data
         subPopulationPerf_t getPerfData(void);
@@ -393,10 +357,10 @@ class subPopulation {
         vector<genome> getGenomes(void);
 
         // Print out the rankmap
-        void printRankMap(genomeTarget& target);
+        void printRankMap(truthTable& target);
 
         // Update the rankmap
-        void updateRankMap(genomeTarget& target, uint32_t(*ff)(genomePerf_t));
+        void updateRankMap(truthTable& target, uint32_t(*ff)(genomePerf_t));
 };
 
 
@@ -508,7 +472,7 @@ class population {
         vector<uint32_t> getLocalSubPopulationIndices(void);
 
         // Iterate the population n generations
-        void iterateSubPopulations(genomeTarget& target, uint32_t(*ff)(genomePerf_t), uint32_t n);
+        void iterateSubPopulations(truthTable& target, uint32_t(*ff)(genomePerf_t), uint32_t n);
 
         // Rank map sorting
         void swapRankMap(uint32_t i1, uint32_t i2);
@@ -528,7 +492,7 @@ class population {
         uint32_t getSubPopulationCount(uint32_t rankAddress);   // From specific rank
 
         // Perform single crossover event
-        void doSubPopulationCrossover(genomeTarget& target, uint32_t(*ff)(genomePerf_t));
+        void doSubPopulationCrossover(truthTable& target, uint32_t(*ff)(genomePerf_t));
 
     public:
 
@@ -539,11 +503,11 @@ class population {
         populationAlgorithm& getAlgorithm(void) {return this->algorithm;}
 
         // Initialise
-        void initialise(genomeTarget& target, uint32_t(*ff)(genomePerf_t));
+        void initialise(truthTable& target, uint32_t(*ff)(genomePerf_t));
 
         // Iterate the population using specific mutation specs
-        void iterate(genomeTarget& target, uint32_t(*ff)(genomePerf_t));
-        void iterate(genomeTarget& target, uint32_t(*ff)(genomePerf_t), uint32_t n);
+        void iterate(truthTable& target, uint32_t(*ff)(genomePerf_t));
+        void iterate(truthTable& target, uint32_t(*ff)(genomePerf_t), uint32_t n);
 
         // Print the subpopulation rankmap
         void printRankMap(void);

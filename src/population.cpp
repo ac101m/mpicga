@@ -24,7 +24,7 @@ population::population(uint32_t subPopulationCount, uint32_t genomeCount, uint32
 
 
 // Initialise a population
-void population::initialise(genomeTarget& target, uint32_t(*ff)(genomePerf_t)) {
+void population::initialise(truthTable& target, uint32_t(*ff)(genomePerf_t)) {
 
     // Do population initialisation
     for(unsigned i = 0; i < this->algorithm.getSubPopulationCount(); i ++) {
@@ -71,7 +71,7 @@ void population::initialise(genomeTarget& target, uint32_t(*ff)(genomePerf_t)) {
 // Errors out if the population is not initialised
 void population::assertInitialised(string msg) {
     if(!this->initialised) {
-        errorOut(msg);
+        err(msg);
     }
 }
 
@@ -97,13 +97,16 @@ vector<uint32_t> population::getLocalSubPopulationIndices(void) {
 
 
 // Iterate the population n generations
-void population::iterateSubPopulations(genomeTarget& target, uint32_t(*ff)(genomePerf_t), uint32_t n) {
+void population::iterateSubPopulations(truthTable& target, uint32_t(*ff)(genomePerf_t), uint32_t n) {
 
     // Get a list of all local sub populations
     vector<uint32_t> localSubPopulationIndices = this->getLocalSubPopulationIndices();
 
-    // Iterate all local subpopulations
-    #pragma omp parallel for num_threads(12)
+    // Calculate distribution stuff
+    unsigned threadCount = 8;
+
+    // Divide up and iterate over local subpopulations
+    #pragma omp parallel for num_threads(threadCount)
     for(unsigned i = 0; i < localSubPopulationIndices.size(); i++) {
         this->subPopulations[localSubPopulationIndices[i]].iterate(target, ff, n);
     }
@@ -282,7 +285,7 @@ uint32_t population::getSubPopulationCount(uint32_t rankAddress) {
 
 
 // Perform single crossover event
-void population::doSubPopulationCrossover(genomeTarget& target, uint32_t(*ff)(genomePerf_t)) {
+void population::doSubPopulationCrossover(truthTable& target, uint32_t(*ff)(genomePerf_t)) {
 
     // Do this the apropriate number of times
     for(unsigned i = 0; i < this->algorithm.getSelectCount(); i++) {
@@ -309,7 +312,7 @@ void population::doSubPopulationCrossover(genomeTarget& target, uint32_t(*ff)(ge
 
 
 // Iterate the population through one cycle
-void population::iterate(genomeTarget& target, uint32_t(*ff)(genomePerf_t)) {
+void population::iterate(truthTable& target, uint32_t(*ff)(genomePerf_t)) {
 
     // Make sure the population is initialised
     this->assertInitialised("Error, attempted to iterate uninitialised population.");
@@ -327,7 +330,7 @@ void population::iterate(genomeTarget& target, uint32_t(*ff)(genomePerf_t)) {
 
 
 // Iterate the population through n cycles
-void population::iterate(genomeTarget& target, uint32_t(*ff)(genomePerf_t), uint32_t n) {
+void population::iterate(truthTable& target, uint32_t(*ff)(genomePerf_t), uint32_t n) {
 
     // Iterate the population through n cycles
     for(unsigned i = 0; i < n; i++) {

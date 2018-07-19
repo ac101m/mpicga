@@ -74,7 +74,7 @@ uint64_t gene::computeBufferValue(uint64_t a, uint64_t b) {
 
         // Unrecognised function
         default:
-            errorOut("Error, encountered unrecognised gene function during evaluation.\n");
+            err("Error, encountered unrecognised gene function during evaluation.\n");
             return 0;
             break;
     }
@@ -99,7 +99,7 @@ bool gene::mutate(uint32_t selectedIndex, subPopulationAlgorithm& algorithm) {
         case 1: this->bInputIndex = algorithm.randomGeneInputIndex(selectedIndex); break;
         case 2: this->geneFunction = algorithm.randomGeneFunction(); break;
         default:
-            errorOut("Error, failed gene mutation operation.\n");
+            err("Error, failed gene mutation operation.\n");
             exit(1);
             break;
     }

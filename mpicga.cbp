@@ -40,12 +40,13 @@
 		<Unit filename="include/bitVector.hpp" />
 		<Unit filename="include/config.hpp" />
 		<Unit filename="include/mpicga.hpp" />
+		<Unit filename="include/truthTable.hpp" />
 		<Unit filename="include/utils.hpp" />
+		<Unit filename="libs/bitvector.cpp" />
+		<Unit filename="libs/truthTable.cpp" />
 		<Unit filename="src/algorithm.cpp" />
-		<Unit filename="src/bitvector.cpp" />
 		<Unit filename="src/gene.cpp" />
 		<Unit filename="src/genome.cpp" />
-		<Unit filename="src/genomeTarget.cpp" />
 		<Unit filename="src/genomeTxBuffer.cpp" />
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/population.cpp" />

@@ -46,7 +46,7 @@ genome::genome(uint32_t geneCount, subPopulationAlgorithm& algorithm) {
 
 
 // Evaluates genome performance and applies returns performance info
-void genome::updatePerfData(genomeTarget& target) {
+void genome::updatePerfData(truthTable& target) {
 
     // Genome performance data
     this->perfData.bitErrors = 0;
@@ -105,7 +105,7 @@ void genome::updatePerfData(genomeTarget& target) {
 
 
 // Get performance data
-genomePerf_t genome::getPerfData(genomeTarget& target) {
+genomePerf_t genome::getPerfData(truthTable& target) {
 
     // Check if performance data is valid
     if(!this->perfDataValid) {
