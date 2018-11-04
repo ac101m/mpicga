@@ -364,7 +364,6 @@ void population::printRankMap(void) {
         }
 
         // Wait for previous rank to finish first
-        usleep(20000);
         MPI_Barrier(MPI_COMM_WORLD);
     }
 }

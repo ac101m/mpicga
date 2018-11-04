@@ -2,6 +2,7 @@
 #include <iostream>
 #include <random>
 #include <functional>
+#include <unistd.h>
 using namespace std;
 
 
@@ -13,20 +14,15 @@ using namespace std;
 #include "bitVector.hpp"
 
 
-// Random ass temporary constants
-//#define ADDER_INPUT_WIDTH 4
-#define MULTIPLIER_INPUT_WIDTH 4
 
-
-
-// Define the fitness function
+// Define the fitness function for subpopulations
 uint32_t genomeFF(subPopulationPerf_t perf) {
     return perf.bestGenomeFitness;
 }
 
 
 
-// Define the fitness function
+// Define the fitness function for genomes
 uint32_t subPopFF(genomePerf_t perf) {
     uint32_t effectiveActiveGenes = perf.activeGenes;
     if(perf.bitErrors) effectiveActiveGenes = 1024;
@@ -38,6 +34,21 @@ uint32_t subPopFF(genomePerf_t perf) {
 // Main routine
 int main(int argc, char **argv) {
 
+
+    // GDB attach point, for when shit gets squirly
+    #ifdef DO_DEBUG_ATTACH
+    if(DO_DEBUG_ATTACH) {
+        int i = 0;
+        char hostname[256];
+        gethostname(hostname, sizeof(hostname));
+        printf("PID %d on %s ready for attach\n", getpid(), hostname);
+        fflush(stdout);
+        while (0 == i)
+            sleep(5);
+    }
+    #endif // DO_DEBUG_ATTACH
+
+
     // Initialise MPI
     MPI_Init(&argc, &argv);
 
@@ -47,10 +58,10 @@ int main(int argc, char **argv) {
 
 
     // Subpopulation distribution across ranks counts
-    uint32_t subPopulationCount = 120;
-    uint32_t totalGenerations = 1024 * 1024 * 960;
+    uint32_t subPopulationCount = 240;
+    uint32_t totalGenerations = 1024 * 1024 * 240;
     uint32_t generationsPerSubPopulation = totalGenerations / subPopulationCount;
-    uint32_t generationsPerCycle = 4096;
+    uint32_t generationsPerCycle = 64;
     uint32_t cycleCount = (totalGenerations / subPopulationCount) / generationsPerCycle;
 
 
@@ -70,7 +81,7 @@ int main(int argc, char **argv) {
 
 
     // Create a population and start timing
-    population p(subPopulationCount, 4, 2048);
+    population p(subPopulationCount, 4, 4096);
 
 
     // Population algorithm settings
@@ -81,9 +92,8 @@ int main(int argc, char **argv) {
 
 
     // Subpopulation algorithm settings
-    p.getAlgorithm().getSubPopulationAlgorithm().setMutateCount(2);
     p.getAlgorithm().getSubPopulationAlgorithm().setMutateCount(1);
-    p.getAlgorithm().getSubPopulationAlgorithm().setAllowableFunctions({GENE_FN_NAND});
+    p.getAlgorithm().getSubPopulationAlgorithm().setAllowableFunctions({GENE_FN_AND, GENE_FN_OR, GENE_FN_XOR});
     p.initialise(target, subPopFF);
 
 
