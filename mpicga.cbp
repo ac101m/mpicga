@@ -4,13 +4,13 @@
 	<Project>
 		<Option title="mpicga" />
 		<Option pch_mode="2" />
-		<Option compiler="mpich" />
+		<Option compiler="openmpi" />
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/Debug/mpicga" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
-				<Option compiler="mpich" />
+				<Option compiler="openmpi" />
 				<Compiler>
 					<Add option="-g" />
 					<Add option="-DDO_DEBUG_ATTACH" />
@@ -20,10 +20,9 @@
 				<Option output="bin/Release/mpicga" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
-				<Option compiler="mpich" />
+				<Option compiler="openmpi" />
 				<Option projectCompilerOptionsRelation="-1" />
 				<Option projectLinkerOptionsRelation="-1" />
-				<Option projectResourceIncludeDirsRelation="-1" />
 				<Option projectLibDirsRelation="-1" />
 				<Compiler>
 					<Add option="-O3" />
@@ -41,7 +40,7 @@
 				<Option output="bin/Testing/tests" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Testing/" />
 				<Option type="1" />
-				<Option compiler="mpich" />
+				<Option compiler="openmpi" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
@@ -50,7 +49,7 @@
 				<Option output="bin/Utils/pattern" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Utils/" />
 				<Option type="1" />
-				<Option compiler="mpich" />
+				<Option compiler="openmpi" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
