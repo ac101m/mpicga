@@ -4,13 +4,13 @@
 	<Project>
 		<Option title="mpicga" />
 		<Option pch_mode="2" />
-		<Option compiler="openmpi" />
+		<Option compiler="mpich" />
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/Debug/mpicga" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
-				<Option compiler="openmpi" />
+				<Option compiler="mpich" />
 				<Compiler>
 					<Add option="-g" />
 					<Add option="-DDO_DEBUG_ATTACH" />
@@ -20,19 +20,28 @@
 				<Option output="bin/Release/mpicga" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
-				<Option compiler="openmpi" />
+				<Option compiler="mpich" />
+				<Option projectCompilerOptionsRelation="-1" />
+				<Option projectLinkerOptionsRelation="-1" />
+				<Option projectResourceIncludeDirsRelation="-1" />
+				<Option projectLibDirsRelation="-1" />
 				<Compiler>
 					<Add option="-O3" />
 				</Compiler>
-				<Linker>
-					<Add option="-s" />
-				</Linker>
+				<MakeCommands>
+					<Build command="" />
+					<CompileFile command="" />
+					<Clean command="" />
+					<DistClean command="" />
+					<AskRebuildNeeded command="" />
+					<SilentBuild command=" &gt; $(CMD_NULL)" />
+				</MakeCommands>
 			</Target>
 			<Target title="Testing">
 				<Option output="bin/Testing/tests" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Testing/" />
 				<Option type="1" />
-				<Option compiler="openmpi" />
+				<Option compiler="mpich" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
@@ -41,7 +50,7 @@
 				<Option output="bin/Utils/pattern" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Utils/" />
 				<Option type="1" />
-				<Option compiler="openmpi" />
+				<Option compiler="mpich" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
