@@ -22,13 +22,13 @@ RELEASE_FLAGS ?= $(INC_FLAGS) $(BASE_FLAGS) -O3
 MAIN_SRCS := $(shell find $(SRC_DIRS) -name *.cpp | grep $(MAIN_SRC_DIR))
 MAIN_OBJS_RELEASE := $(MAIN_SRCS:%=$(OBJ_DIR_RELEASE)/%.o)
 MAIN_OBJS_DEBUG := $(MAIN_SRCS:%=$(OBJ_DIR_DEBUG)/%.o)
-MAIN_DEPS := $(MAIN_OBJS)
+MAIN_DEPS := $(MAIN_OBJS:.o=.d)
 
 # "Subordinate" sources which do not define mains
 SUB_SRCS := $(shell find $(SRC_DIRS) -name *.cpp | grep -v $(MAIN_SRC_DIR))
 SUB_OBJS_RELEASE := $(SUB_SRCS:%=$(OBJ_DIR_RELEASE)/%.o)
 SUB_OBJS_DEBUG := $(SUB_SRCS:%=$(OBJ_DIR_DEBUG)/%.o)
-SUB_DEPS := $(SUB_OBJS)
+SUB_DEPS := $(SUB_OBJS:.o=.d)
 
 # C++ object compilation - debug symbols - no optimisations
 $(OBJ_DIR_DEBUG)/%.cpp.o: %.cpp
