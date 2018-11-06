@@ -58,10 +58,10 @@ int main(int argc, char **argv) {
 
 
     // Subpopulation distribution across ranks counts
-    uint32_t subPopulationCount = 240;
+    uint32_t subPopulationCount = 1920;
     uint32_t totalGenerations = 1024 * 1024 * 240;
     uint32_t generationsPerSubPopulation = totalGenerations / subPopulationCount;
-    uint32_t generationsPerCycle = 64;
+    uint32_t generationsPerCycle = 256;
     uint32_t cycleCount = (totalGenerations / subPopulationCount) / generationsPerCycle;
 
 
