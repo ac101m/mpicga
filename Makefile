@@ -68,7 +68,7 @@ test: $(TEST_OBJS)
 # Clean, be careful with this
 .PHONY: clean
 clean:
-	$(RM) -r $(OBJ_DIR_BASE)
+	@$(RM) -rv $(OBJ_DIR_BASE)
 
 # Include dependencies
 -include $(MAIN_DEPS) $(SUB_DEPS)
