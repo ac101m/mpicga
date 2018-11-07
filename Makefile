@@ -5,8 +5,9 @@ PATTERN_EXEC ?= bin/pattern
 TEST_EXEC ?= bin/test
 
 # Directory controls
-OBJ_DIR_RELEASE ?= obj/release
-OBJ_DIR_DEBUG ?= obj/debug
+OBJ_DIR_BASE ?= obj
+OBJ_DIR_RELEASE ?= $(OBJ_DIR_BASE)/release
+OBJ_DIR_DEBUG ?= $(OBJ_DIR_BASE)/debug
 SRC_DIRS ?= src
 INC_DIRS ?= include
 MAIN_SRC_DIR ?= src/main
@@ -67,7 +68,7 @@ test: $(TEST_OBJS)
 # Clean, be careful with this
 .PHONY: clean
 clean:
-	$(RM) -r $(OBJ_DIR_RELEASE) $(OBJ_DIR_DEBUG)
+	$(RM) -r $(OBJ_DIR_BASE)
 
 # Include dependencies
 -include $(MAIN_DEPS) $(SUB_DEPS)
