@@ -103,7 +103,7 @@ void population::iterateSubPopulations(truthTable& target, uint32_t(*ff)(genomeP
     vector<uint32_t> localSubPopulationIndices = this->getLocalSubPopulationIndices();
 
     // Calculate distribution stuff
-    unsigned threadCount = 24;
+    unsigned threadCount = 12;
 
     // Divide up and iterate over local subpopulations
     #pragma omp parallel for num_threads(threadCount)
@@ -303,9 +303,6 @@ void population::doSubPopulationCrossover(truthTable& target, uint32_t(*ff)(geno
         // Perform crossover
         destPop.crossover(pop1, pop2, this->algorithm.randomCrossoverIndices());
         destPop.updateRankMap(target, ff);
-
-        // MPI barrier, hopefuly temporary
-        MPI_Barrier(MPI_COMM_WORLD);
     }
 }
 
