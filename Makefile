@@ -65,6 +65,9 @@ test: $(TEST_OBJS)
 	@$(MKDIR_P) $(dir $(TEST_EXEC))
 	$(CXX) $(TEST_OBJS) -o $(TEST_EXEC) $(LDFLAGS) -fopenmp
 
+# Make all targets
+all: release debug pattern test
+
 # Clean, be careful with this
 .PHONY: clean
 clean:
