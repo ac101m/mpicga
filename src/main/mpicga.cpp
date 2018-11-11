@@ -12,7 +12,34 @@ using namespace std;
 #include "utils.hpp"
 #include "mpicga.hpp"
 #include "bitVector.hpp"
+#include "optparse.hpp"
 
+
+
+// Build option parser
+OptionParser buildOptionParser(int argc, char **argv) {
+  OptionParser options = OptionParser(
+    argc, argv,
+    "mpicga - a parallel genetic algorithm for generating cobinational logic circuits.");
+
+  options.Add(Option("subpopulationcount", 's', ARG_TYPE_INT,
+                     "Set number of subpopulations for the algorithm to use.",
+                     {DEFAULT_SUBPOP_COUNT}));
+
+  options.Add(Option("totalgenerations", 'G', ARG_TYPE_INT,
+                     "Set total number of generations for this run.",
+                     {DEFAULT_TOTAL_GENERATIONS}));
+
+  options.Add(Option("generationspercycle", 'g', ARG_TYPE_INT,
+                     "Set number of generations per sub-population cycle.",
+                     {DEFAULT_GENERATIONS_PER_CYCLE}));
+
+  options.Add(Option("patternfile", 'p', ARG_TYPE_STRING,
+                     "Path to file containing target pattern.",
+                     {DEFAULT_PATTERN_PATH}));
+
+  return options;
+}
 
 
 // Define the fitness function for subpopulations
@@ -35,28 +62,32 @@ int main(int argc, char **argv) {
     // GDB attach point, for when shit gets squirly
     #ifdef DO_DEBUG_ATTACH
     if(DO_DEBUG_ATTACH) {
-        int i = 0;
-        char hostname[256];
-        gethostname(hostname, sizeof(hostname));
-        printf("PID %d on %s ready for attach\n", getpid(), hostname);
-        fflush(stdout);
-        while (0 == i)
-            sleep(5);
+      int i = 0;
+      char hostname[256];
+      gethostname(hostname, sizeof(hostname));
+      printf("PID %d on %s ready for attach\n", getpid(), hostname);
+      fflush(stdout);
+      while (0 == i) {
+        sleep(5);
+      }
     }
     #endif // DO_DEBUG_ATTACH
 
-    // Initialise MPI
-    MPI_Init(&argc, &argv);
+    // Build the option parser
+    OptionParser options = buildOptionParser(argc, argv);
 
     // Load the pattern from file
-    truthTable target(DEFAULT_PATTERN_PATH);
+    truthTable target(options.Get("patternfile"));
 
     // Subpopulation distribution across ranks counts
-    uint32_t subPopulationCount = 96;
-    uint32_t totalGenerations = 1024 * 1024 * 240;
+    int subPopulationCount = options.Get("subpopulationcount");
+    int totalGenerations = options.Get("totalgenerations");
+    int generationsPerCycle = options.Get("generationspercycle");
     uint32_t generationsPerSubPopulation = totalGenerations / subPopulationCount;
-    uint32_t generationsPerCycle = 4096;
     uint32_t cycleCount = (totalGenerations / subPopulationCount) / generationsPerCycle;
+
+    // Initialise MPI
+    MPI_Init(&argc, &argv);
 
     // zeroth rank, print out run information
     if(myRank() == 0) {
@@ -64,12 +95,11 @@ int main(int argc, char **argv) {
         cout << "Total generations: " << totalGenerations << "\n";
         cout << "Generations per sub population: " << generationsPerSubPopulation << "\n";
         cout << "Generations per cycle: " << generationsPerCycle << "\n";
-        cout << "Cycle count: " << cycleCount << "\n";
-        cout << "\n[POPULATION PROCESS DISTRIBUTION]\n";
+        cout << "Cycle count: " << cycleCount << "\n\n";
+        cout << "[POPULATION PROCESS DISTRIBUTION]\n";
         cout << "Process count: " << rankCount() << "\n";
         cout << "Sub population count: " << subPopulationCount << "\n";
-        cout << "Subpopulations per process: " << subPopulationCount / rankCount() << "\n";
-        cout << "\n";
+        cout << "Subpopulations per process: " << subPopulationCount / rankCount() << "\n\n";
     }
 
     // Create a population and start timing
@@ -86,13 +116,9 @@ int main(int argc, char **argv) {
     p.getAlgorithm().getSubPopulationAlgorithm().setAllowableFunctions({GENE_FN_NAND});
     p.initialise(target, subPopFF);
 
-    // Start ze timer
-    double startTime = MPI_Wtime();
-
     // Iterate the population here
+    double startTime = MPI_Wtime();
     p.iterate(target, subPopFF, cycleCount);
-
-    // End ze timer
     double endTime = MPI_Wtime();
 
     // Quick barrier to stop execution duration overwriting stuff

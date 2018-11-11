@@ -103,7 +103,7 @@ void population::iterateSubPopulations(truthTable& target, uint32_t(*ff)(genomeP
     vector<uint32_t> localSubPopulationIndices = this->getLocalSubPopulationIndices();
 
     // Calculate distribution stuff
-    unsigned threadCount = 12;
+    unsigned threadCount = 24;
 
     // Divide up and iterate over local subpopulations
     #pragma omp parallel for num_threads(threadCount)

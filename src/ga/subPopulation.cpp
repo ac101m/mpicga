@@ -99,7 +99,6 @@ void subPopulation::initialise(truthTable& target, uint32_t(*ff)(genomePerf_t), 
 
 
 
-// Initialisation method
 // Initialises on process zero
 void subPopulation::initialise(truthTable& target, uint32_t(*ff)(genomePerf_t)) {
 
