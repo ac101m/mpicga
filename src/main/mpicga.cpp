@@ -22,9 +22,17 @@ OptionParser buildOptionParser(int argc, char **argv) {
     argc, argv,
     "mpicga - a parallel genetic algorithm for generating cobinational logic circuits.");
 
-  options.Add(Option("subpopulationcount", 's', ARG_TYPE_INT,
+  options.Add(Option("subpopcount", 'n', ARG_TYPE_INT,
                      "Set number of subpopulations for the algorithm to use.",
                      {DEFAULT_SUBPOP_COUNT}));
+
+  options.Add(Option("subpopsize", 'S', ARG_TYPE_INT,
+                     "Set size of subpopulations.",
+                     {DEFAULT_SUBPOP_SIZE}));
+
+  options.Add(Option("genomesize", 's', ARG_TYPE_INT,
+                     "Set length of genomes.",
+                     {DEFAULT_GENOME_SIZE}));
 
   options.Add(Option("totalgenerations", 'G', ARG_TYPE_INT,
                      "Set total number of generations for this run.",
@@ -80,30 +88,36 @@ int main(int argc, char **argv) {
     truthTable target(options.Get("patternfile"));
 
     // Subpopulation distribution across ranks counts
-    int subPopulationCount = options.Get("subpopulationcount");
+    int subPopCount = options.Get("subpopcount");
     int totalGenerations = options.Get("totalgenerations");
     int generationsPerCycle = options.Get("generationspercycle");
-    uint32_t generationsPerSubPopulation = totalGenerations / subPopulationCount;
-    uint32_t cycleCount = (totalGenerations / subPopulationCount) / generationsPerCycle;
+    int subPopSize = options.Get("subpopsize");
+    int genomeSize = options.Get("genomesize");
+    uint32_t generationsPerSubPopulation = totalGenerations / subPopCount;
+    uint32_t cycleCount = (totalGenerations / subPopCount) / generationsPerCycle;
 
     // Initialise MPI
     MPI_Init(&argc, &argv);
 
     // zeroth rank, print out run information
     if(myRank() == 0) {
-        cout << "[GENERATION CONFIG]\n";
+        cout << "\n[GENERATION CONFIG]\n";
         cout << "Total generations: " << totalGenerations << "\n";
         cout << "Generations per sub population: " << generationsPerSubPopulation << "\n";
         cout << "Generations per cycle: " << generationsPerCycle << "\n";
-        cout << "Cycle count: " << cycleCount << "\n\n";
-        cout << "[POPULATION PROCESS DISTRIBUTION]\n";
+        cout << "Cycle count: " << cycleCount << "\n";
+        cout << "\n[POPULATION LAYOUT]\n";
+        cout << "Genome length: " << genomeSize << "\n";
+        cout << "Subpopulation size: " << subPopSize << "\n";
+        cout << "Total genomes: " << subPopCount * subPopSize << "\n";
+        cout << "\n[PROCESS DISTRIBUTION]\n";
         cout << "Process count: " << rankCount() << "\n";
-        cout << "Sub population count: " << subPopulationCount << "\n";
-        cout << "Subpopulations per process: " << subPopulationCount / rankCount() << "\n\n";
+        cout << "Sub population count: " << subPopCount << "\n";
+        cout << "Subpopulations per process: " << subPopCount / rankCount() << "\n\n";
     }
 
     // Create a population and start timing
-    population p(subPopulationCount, 4, 4096);
+    population p(subPopCount, subPopSize, genomeSize);
 
     // Population algorithm settings
     p.getAlgorithm().setGenerationsPerCycle(generationsPerCycle);
