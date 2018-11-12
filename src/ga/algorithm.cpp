@@ -49,7 +49,6 @@ subPopulationAlgorithm::subPopulationAlgorithm(void) {
 }
 
 
-
 // Get max gate delays
 void subPopulationAlgorithm::setMinGateDelays(uint32_t gd) {
 
@@ -177,6 +176,9 @@ populationAlgorithm::populationAlgorithm(uint32_t subPopCount, uint32_t genomeCo
     this->selectCount = 1;
     this->crossoverCount = 4;
     this->highSelectRange = this->lowSelectRange = this->subPopulationCount / 2;
+
+    // Processing behaviour
+    this->threadCount = 1;
 }
 
 

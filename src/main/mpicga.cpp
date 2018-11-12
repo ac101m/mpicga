@@ -46,6 +46,10 @@ OptionParser buildOptionParser(int argc, char **argv) {
                      "Path to file containing target pattern.",
                      {DEFAULT_PATTERN_PATH}));
 
+  options.Add(Option("threadcount", 't', ARG_TYPE_INT,
+                     "Number of threads per process for subpopulation processing.",
+                     {DEFAULT_THREAD_COUNT}));
+
   return options;
 }
 
@@ -124,6 +128,7 @@ int main(int argc, char **argv) {
     p.getAlgorithm().setSeed(1);
     p.getAlgorithm().setCrossoverCount(3);
     p.getAlgorithm().setSelectCount(1);
+    p.getAlgorithm().setThreadCount(options.Get("threadcount"));
 
     // Subpopulation algorithm settings
     p.getAlgorithm().getSubPopulationAlgorithm().setMutateCount(1);

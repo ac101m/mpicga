@@ -389,6 +389,9 @@ class populationAlgorithm {
         uint32_t subPopulationCount;
         function<uint32_t(subPopulationPerf_t)> subPopulationFitnessFunction;
 
+        // Processing modifiers
+        int threadCount;
+
     public:
 
         // Constructors
@@ -416,6 +419,10 @@ class populationAlgorithm {
         // Get and set for crossover count
         uint32_t getSelectCount(void) {return this->selectCount;}
         void setSelectCount(uint32_t sc) {this->selectCount = sc;}
+
+        // Get and set for thread count
+        int getThreadCount(void) {return this->threadCount;}
+        void setThreadCount(int tc) {this->threadCount = tc;}
 
         // Select subpopulations
         int32_t randomLowSubPopulation(void);
