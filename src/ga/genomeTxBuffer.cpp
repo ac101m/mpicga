@@ -10,9 +10,9 @@
 
 // Constructor
 genomeTransmissionBuffer::genomeTransmissionBuffer(unsigned bufferLength) {
-    this->buffer = new geneNetworkFrame_t[bufferLength];
-    this->maxGenes = bufferLength;
-    this->currentGenes = 0;
+  this->buffer = new geneNetworkFrame_t[bufferLength];
+  this->maxGenes = bufferLength;
+  this->currentGenes = 0;
 }
 
 
@@ -20,8 +20,8 @@ genomeTransmissionBuffer::genomeTransmissionBuffer(unsigned bufferLength) {
 // Get the raw data in the form of a vector of gene network frames
 geneNetworkFrame_t *genomeTransmissionBuffer::getData(void) {
 
-    // Return the gene data
-    return &this->buffer[0];
+  // Return the gene data
+  return &this->buffer[0];
 }
 
 
@@ -29,16 +29,16 @@ geneNetworkFrame_t *genomeTransmissionBuffer::getData(void) {
 // Append a gene network frame
 void genomeTransmissionBuffer::append(geneNetworkFrame_t g) {
 
-    // Check that buffer is not full
-    if(currentGenes == maxGenes) {
-        err("Error, genome transmit buffer overflow (append).");
-    }
+  // Check that buffer is not full
+  if(currentGenes == maxGenes) {
+    err("Error, genome transmit buffer overflow (append).");
+  }
 
-    // Position in the buffer to start writing at
-    this->buffer[this->currentGenes] = g;
+  // Position in the buffer to start writing at
+  this->buffer[this->currentGenes] = g;
 
-    // Increment the gene count
-    this->currentGenes++;
+  // Increment the gene count
+  this->currentGenes++;
 }
 
 
@@ -46,8 +46,8 @@ void genomeTransmissionBuffer::append(geneNetworkFrame_t g) {
 // Append a gene
 void genomeTransmissionBuffer::append(gene g) {
 
-    // Add it to the internal vector of gene network frames
-    this->append(g.getNetworkFrame());
+  // Add it to the internal vector of gene network frames
+  this->append(g.getNetworkFrame());
 }
 
 
@@ -55,10 +55,10 @@ void genomeTransmissionBuffer::append(gene g) {
 // Append a genome
 void genomeTransmissionBuffer::append(genome g) {
 
-    // Add it to the internal vector of gene network frames
-    for(unsigned i = 0; i < g.getGeneCount(); i++) {
-        this->append(g.getGenes()[i]);
-    }
+  // Add it to the internal vector of gene network frames
+  for(unsigned i = 0; i < g.getGeneCount(); i++) {
+    this->append(g.getGenes()[i]);
+  }
 }
 
 
@@ -66,13 +66,13 @@ void genomeTransmissionBuffer::append(genome g) {
 // Transmit the buffer
 void genomeTransmissionBuffer::transmit(int32_t destination, int32_t tag) {
 
-    // Transmit the buffer using MPI
-    MPI_Ssend((uint8_t *)&this->buffer[0],
-             currentGenes * sizeof(geneNetworkFrame_t),
-             MPI_BYTE,
-             destination,
-             tag,
-             MPI_COMM_WORLD);
+  // Transmit the buffer using MPI
+  MPI_Ssend((uint8_t *)&this->buffer[0],
+           currentGenes * sizeof(geneNetworkFrame_t),
+           MPI_BYTE,
+           destination,
+           tag,
+           MPI_COMM_WORLD);
 }
 
 
@@ -80,40 +80,40 @@ void genomeTransmissionBuffer::transmit(int32_t destination, int32_t tag) {
 // Recieve buffer from another transmit
 void genomeTransmissionBuffer::receive(int32_t source, int32_t tag) {
 
-    // Probe and get status of recieve operation
-    MPI_Status status;
-    MPI_Probe(source,
-              tag,
-              MPI_COMM_WORLD,
-              &status);
+  // Probe and get status of recieve operation
+  MPI_Status status;
+  MPI_Probe(source,
+            tag,
+            MPI_COMM_WORLD,
+            &status);
 
-    // Get total number of bytes that are to be transmitted
-    int32_t byteCount;
-    MPI_Get_count(&status, MPI_BYTE, &byteCount);
+  // Get total number of bytes that are to be transmitted
+  int32_t byteCount;
+  MPI_Get_count(&status, MPI_BYTE, &byteCount);
 
-    // Confirm that incoming buffer is not malformed
-    if(byteCount % sizeof(geneNetworkFrame_t) != 0) {
-        err("Error, recieve into buffer of incorrect size.");
+  // Confirm that incoming buffer is not malformed
+  if(byteCount % sizeof(geneNetworkFrame_t) != 0) {
+    err("Error, recieve into buffer of incorrect size.");
+  } else {
+    if(this->maxGenes != (byteCount / sizeof(geneNetworkFrame_t))) {
+      err("Error, genome recieve buffer is of incorrect length.");
     } else {
-        if(this->maxGenes != (byteCount / sizeof(geneNetworkFrame_t))) {
-            err("Error, genome recieve buffer is of incorrect length.");
-        } else {
-            this->currentGenes = byteCount / sizeof(geneNetworkFrame_t);
-        }
+      this->currentGenes = byteCount / sizeof(geneNetworkFrame_t);
     }
+  }
 
-    // Recieve the buffer using MPI
-    MPI_Recv((uint8_t *)&this->buffer[0],
-             byteCount,
-             MPI_BYTE,
-             source,
-             tag,
-             MPI_COMM_WORLD,
-             MPI_STATUS_IGNORE);
+  // Recieve the buffer using MPI
+  MPI_Recv((uint8_t *)&this->buffer[0],
+           byteCount,
+           MPI_BYTE,
+           source,
+           tag,
+           MPI_COMM_WORLD,
+           MPI_STATUS_IGNORE);
 }
 
 
 // Destructor
 genomeTransmissionBuffer::~genomeTransmissionBuffer(void) {
-    delete [] this->buffer;
+  delete [] this->buffer;
 }
