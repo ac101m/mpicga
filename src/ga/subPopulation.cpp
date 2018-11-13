@@ -61,26 +61,24 @@ subPopulation::subPopulation(subPopulationAlgorithm algorithm) {
 }
 
 
-
-// Initialisation method
-// Initialises subpopulation on indicated process
+// Initialisation method, initialises subpopulation on indicated process
 void subPopulation::initialise(truthTable& target, uint32_t(*ff)(genomePerf_t), int32_t domainIndex) {
 
   // Initialise comm world address
   this->domainIndex = domainIndex;
   this->commWorldAddress = domainDecomposition(this->domainIndex);
 
-  // Is this genome local or not?
+  // Is this subpopulation local or not?
   if(this->commWorldAddress == myRank()) {
 
     // Initialise random genomes to the genome vector
     for(unsigned i = 0; i < algorithm.getGenomeCount(); i++) {
-        this->genomes.push_back(genome(algorithm.getGenomeLength(), algorithm));
+      this->genomes.push_back(genome(algorithm.getGenomeLength(), algorithm));
     }
 
     // Build the initial rankmap
     for(unsigned i = 0; i < this->genomes.size(); i++) {
-        this->rankMap.push_back({&genomes[i], i, 0});
+      this->rankMap.push_back({&genomes[i], i, 0});
     }
 
     // Update the rankmap to contain fitness values for randomly generated genomes
