@@ -170,10 +170,9 @@ void population::sortRankMap(void) {
 
 // Build a vector of integers respresentative of the local subpopulation
 // Format: index - fitness - index - fitness - etc etc
-// Remember to deallocate this when you are done!
 unsigned *population::getRankMapTxBuffer(void) {
 
-  // Create tx buffer structure
+  // Allocate memory for the tx buffer
   unsigned *txBuffer = new unsigned[2 * this->getLocalSubPopulationCount()];
 
   // Get local subpopulation indices
@@ -301,7 +300,8 @@ void population::doSubPopulationCrossover(truthTable& target, uint32_t(*ff)(geno
     subPopulation& destPop = *this->rankMap[destIdx].ptr;
 
     // Perform crossover
-    destPop.crossover(pop1, pop2, this->algorithm.randomCrossoverIndices());
+    uint32_t commTag = this->algorithm.generateCommTag();
+    destPop.crossover(pop1, pop2, this->algorithm.randomCrossoverIndices(), commTag);
     destPop.updateRankMap(target, ff);
   }
 }
@@ -332,7 +332,7 @@ void population::iterate(truthTable& target, uint32_t(*ff)(genomePerf_t), uint32
   // Iterate the population through n cycles
   for(unsigned i = 0; i < n; i++) {
     this->iterate(target, ff);
-    this->rankMap[0].ptr->printRankMap(target);
+    // this->rankMap[0].ptr->printRankMap(target);
   }
 }
 

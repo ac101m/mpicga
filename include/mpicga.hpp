@@ -320,8 +320,8 @@ class subPopulation {
     // Internal copy transmit and recieve routines
     void parseGenomeBuffer(genomeTransmissionBuffer& buffer, vector<uint32_t>& genomeIndices);
     void copyGenomes(vector<uint32_t>& genomeIndices, subPopulation& source);
-    void importGenomes(vector<uint32_t>& genomeIndices, subPopulation& source);
-    void exportGenomes(vector<uint32_t>& genomeIndices, subPopulation& target);
+    void importGenomes(vector<uint32_t>& genomeIndices, subPopulation& source, uint32_t tag);
+    void exportGenomes(vector<uint32_t>& genomeIndices, subPopulation& target, uint32_t tag);
 
   public:
 
@@ -351,7 +351,7 @@ class subPopulation {
     subPopulationPerf_t getPerfData(void);
 
     // Subpopulation crossover operator
-    void crossover(subPopulation& pop1, subPopulation& pop2, vector<uint32_t> crossoverIndices);
+    void crossover(subPopulation& pop1, subPopulation& pop2, vector<uint32_t> crossoverIndices, uint32_t tag);
 
     // Get a specific genome
     vector<genome> getGenomes(void);
@@ -390,7 +390,8 @@ class populationAlgorithm {
     function<uint32_t(subPopulationPerf_t)> subPopulationFitnessFunction;
 
     // Processing modifiers
-    int threadCount;
+    uint32_t threadCount;
+    uint32_t commTagCounter;
 
   public:
 
@@ -430,6 +431,9 @@ class populationAlgorithm {
 
     // Get a random list of crossover indices
     vector<uint32_t> randomCrossoverIndices(void);
+
+    // Generate a new comm tag
+    uint32_t generateCommTag(void) {return this->commTagCounter++;}
 };
 
 
@@ -466,9 +470,6 @@ class population {
     vector<subPopulation> subPopulations;
     vector<subPopulationFitnessMapping_t> rankMap;
     vector<uint32_t> rankSubPopulationCounts;
-
-    // Communication tag counter used to uniquely identify
-    uint32_t commTagCounter;
 
   private:
 

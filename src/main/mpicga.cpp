@@ -127,7 +127,7 @@ int main(int argc, char **argv) {
   p.getAlgorithm().setGenerationsPerCycle(generationsPerCycle);
   p.getAlgorithm().setSeed(1);
   p.getAlgorithm().setCrossoverCount(3);
-  p.getAlgorithm().setSelectCount(1);
+  p.getAlgorithm().setSelectCount(0);
   p.getAlgorithm().setThreadCount(options.Get("threadcount"));
 
   // Subpopulation algorithm settings

@@ -179,6 +179,7 @@ populationAlgorithm::populationAlgorithm(uint32_t subPopCount, uint32_t genomeCo
 
   // Processing behaviour
   this->threadCount = 1;
+  this->commTagCounter = 0;
 }
 
 

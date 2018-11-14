@@ -293,7 +293,7 @@ void subPopulation::parseGenomeBuffer(genomeTransmissionBuffer& buffer, vector<u
 
 
 // Transmits genomes
-void subPopulation::exportGenomes(vector<uint32_t>& genomeIndices, subPopulation& target) {
+void subPopulation::exportGenomes(vector<uint32_t>& genomeIndices, subPopulation& target, uint32_t tag) {
 
   // Make sure we are local
   this->assertLocal("Error, attempt to export genomes from nonlocal subpopulation.");
@@ -313,7 +313,7 @@ void subPopulation::exportGenomes(vector<uint32_t>& genomeIndices, subPopulation
 
 
 // Recieves genomes
-void subPopulation::importGenomes(vector<uint32_t>& genomeIndices, subPopulation& source) {
+void subPopulation::importGenomes(vector<uint32_t>& genomeIndices, subPopulation& source, uint32_t tag) {
 
   // Make sure we are local
   this->assertLocal("Error, attempt to import genomes to nonlocal subpopulation.");
@@ -331,7 +331,7 @@ void subPopulation::importGenomes(vector<uint32_t>& genomeIndices, subPopulation
 
 
 // Subpopulation crossover operator
-void subPopulation::crossover(subPopulation& pop1, subPopulation& pop2, vector<uint32_t> crossoverIndices) {
+void subPopulation::crossover(subPopulation& pop1, subPopulation& pop2, vector<uint32_t> crossoverIndices, uint32_t tag) {
 
   // Check that this is initialised
   assertInitialised("Error, attempted to perform crossover operation on uninitialised supopulation.");
@@ -358,9 +358,9 @@ void subPopulation::crossover(subPopulation& pop1, subPopulation& pop2, vector<u
   if(p1Indices.size() != 0) {
     if(pop1.isLocal()) {    // Source population one is local
       if(this->isLocal()) this->copyGenomes(p1Indices, pop1);
-      else pop1.exportGenomes(p1Indices, *this);
+      else pop1.exportGenomes(p1Indices, *this, tag);
     } else {                // Source population is nonlocal
-      if(this->isLocal()) this->importGenomes(p1Indices, pop1);
+      if(this->isLocal()) this->importGenomes(p1Indices, pop1, tag);
     }
   }
 
@@ -368,9 +368,9 @@ void subPopulation::crossover(subPopulation& pop1, subPopulation& pop2, vector<u
   if(p2Indices.size() != 0) {
     if(pop2.isLocal()) {    // Source population two is local
       if(this->isLocal()) this->copyGenomes(p2Indices, pop2);
-      else pop2.exportGenomes(p2Indices, *this);
+      else pop2.exportGenomes(p2Indices, *this, tag);
     } else {                // Source population is nonlocal
-      if(this->isLocal()) this->importGenomes(p2Indices, pop2);
+      if(this->isLocal()) this->importGenomes(p2Indices, pop2, tag);
     }
   }
 }
