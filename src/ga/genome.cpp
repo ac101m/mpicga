@@ -1,6 +1,7 @@
 // Standard headers
 #include <iostream>
 #include <vector>
+#include <fstream>
 using namespace std;
 
 
@@ -64,7 +65,7 @@ void genome::updatePerfData(truthTable& target) {
       this->genes[j].outputBufferValid = false;
     }
 
-    // Second loop reaplies inputs
+    // Second loop reapplies inputs
     for(unsigned j = 0; j < target.getInputCount(); j++) {
       this->genes[j].overrideBuffer(target.getInputBitmap(j, i));
     }
@@ -165,4 +166,18 @@ void genome::copyFrom(genome& g) {
   // Reset perf-data
   this->perfData.genomeAge = 0;
   this->perfDataValid = false;
+}
+
+
+// Output genome to file
+void genome::outputToFile(string const path) {
+  ofstream fp(path);
+  for(unsigned i = 0; i < this->genes.size(); i++) {
+    if(this->genes[i].outputBufferValid) {
+      fp << "GATE: " << i;
+      fp << " IN: " << this->genes[i].aInputIndex;
+      fp << ", " << this->genes[i].bInputIndex;
+      fp << " FN: " << this->genes[i].geneFunction << "\n";
+    }
+  }
 }

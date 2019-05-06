@@ -403,3 +403,11 @@ void subPopulation::printRankMap(truthTable& target) {
     cout << rankMap[i].ptr->getPerfData(target).str() << "\n";
   }
 }
+
+
+// output best solution to file
+void subPopulation::outputBestGenome(string const path) {
+  if(this->local) {
+    this->rankMap[0].ptr->outputToFile(path);
+  }
+}

@@ -148,6 +148,9 @@ int main(int argc, char **argv) {
     cout << "\nTotal execution time: " << endTime - startTime << "s\n";
   }
 
+  // Print out the best subPopulation
+  p.outputBestGenome("outputGenome.op");
+
   // El fin
   MPI_Finalize();
   return 0;

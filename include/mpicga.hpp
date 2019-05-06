@@ -51,7 +51,7 @@ typedef struct {
 class gene {
   public:
 
-    bool outputBufferValid;         // Flag to indicate wether or not output value buffer is valid
+    bool outputBufferValid;         // Flag to indicate whether or not output value buffer is valid
     char geneFunction;              // Character representative of gene logic function
     uint16_t aInputIndex;           // Input index A
     uint16_t bInputIndex;           // Input index B
@@ -145,6 +145,9 @@ class genome {
 
     // Copy gene data from one genome to this one
     void copyFrom(genome& g);
+
+    // output genome to file
+    void outputToFile(string const path);
 };
 
 
@@ -361,6 +364,9 @@ class subPopulation {
 
     // Update the rankmap
     void updateRankMap(truthTable& target, uint32_t(*ff)(genomePerf_t));
+
+    // output the best solution in this subpopulation
+    void outputBestGenome(string const path);
 };
 
 
@@ -490,7 +496,7 @@ class population {
     void sortRankMap(void);
 
     // Rankmap synchonisation and helper routines
-    unsigned *getRankMapTxBuffer(void);
+    uint32_t *getRankMapTxBuffer(void);
     void parseRankMapRxBuffer(unsigned *rxBuffer);
     void synchroniseRankMap(void);
     void updateRankMap(void);
@@ -519,6 +525,9 @@ class population {
 
     // Print the subpopulation rankmap
     void printRankMap(void);
+
+    // Print the best solution
+    void outputBestGenome(std::string const path);
 };
 
 

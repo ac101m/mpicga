@@ -364,3 +364,9 @@ void population::printRankMap(void) {
     MPI_Barrier(MPI_COMM_WORLD);
   }
 }
+
+
+// Prints the best genome to a file
+void population::outputBestGenome(std::string const path) {
+  this->rankMap[0].ptr->outputBestGenome(path);
+}
