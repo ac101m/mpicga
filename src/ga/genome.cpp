@@ -169,10 +169,10 @@ void genome::outputToFile(string const path) {
   ofstream fp(path);
   for(unsigned i = 0; i < this->genes.size(); i++) {
     if(this->genes[i].bufValid) {
-      fp << "GATE: " << i;
-      fp << " IN: " << this->genes[i].aIndex;
-      fp << ", " << this->genes[i].bIndex;
-      fp << " FN: " << this->genes[i].function << "\n";
+      fp << i << ":\t";
+      fp << this->genes[i].aIndex << " ";
+      fp << str(this->genes[i].function) << " ";
+      fp << this->genes[i].bIndex << "\n";
     }
   }
 }

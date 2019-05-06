@@ -39,6 +39,24 @@ typedef enum : uint8_t {
 } geneFunction_t;
 
 
+// Convert a gene function to a string
+inline std::string str(geneFunction_t const fn) {
+  switch(fn) {
+    case GENE_FN_NOP: return "NOP"; break;
+    case GENE_FN_NOT: return "NOT"; break;
+    case GENE_FN_AND: return "AND"; break;
+    case GENE_FN_NAND: return "NAND"; break;
+    case GENE_FN_OR: return "OR"; break;
+    case GENE_FN_NOR: return "NOR"; break;
+    case GENE_FN_XOR: return "XOR"; break;
+    case GENE_FN_XNOR: return "XNOR"; break;
+    default:
+      cout << "Error, unrecognised gene function\n";
+      exit(1);
+  }
+}
+
+
 // Minimal gene datastructure for transmission over the network
 typedef struct {
   geneFunction_t function;
