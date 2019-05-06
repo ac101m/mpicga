@@ -389,7 +389,7 @@ void truthTable::addPattern(uint32_t iPattern, uint32_t oPattern) {
     // Check whether input pattern has already been specified
     if(this->patternMap.find(iPatternMasked) != this->patternMap.end()) {
         if(this->patternMap[iPatternMasked] != oPatternMasked) {
-            throw(logic_error("Truth table logic fail, duplicate pattern submitted."));
+            throw(logic_error("Truth table logic fail, conflicting pattern submitted."));
         } else {
             cout << "Warning, duplicate pattern [";
             cout << iPattern << ":" << oPattern << "], definition ignored\n";
