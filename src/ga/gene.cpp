@@ -12,22 +12,22 @@ using namespace std;
 
 // Constructor, initialises everything to zero
 gene::gene(void) {
-  this->outputBufferValid = false;
-  this->geneFunction = GENE_FN_NOP;
-  this->aInputIndex = 0;
-  this->bInputIndex = 0;
-  this->outputBuffer = 0;
+  this->bufValid = false;
+  this->function = GENE_FN_NOP;
+  this->aIndex = 0;
+  this->bIndex = 0;
+  this->buf = 0;
 }
 
 
 
 // Construct a gene from a gene network frame
 gene::gene(geneNetworkFrame_t frame) {
-  this->outputBufferValid = false;
-  this->geneFunction = frame.geneFunction;
-  this->aInputIndex = frame.aInputIndex;
-  this->bInputIndex = frame.bInputIndex;
-  this->outputBuffer = 0;
+  this->bufValid = false;
+  this->function = frame.function;
+  this->aIndex = frame.aIndex;
+  this->bIndex = frame.bIndex;
+  this->buf = 0;
 }
 
 
@@ -37,21 +37,21 @@ uint64_t gene::getOutputBuffer(vector<gene>& genes) {
   uint64_t aInput, bInput = 0;
 
   // Check that the input buffer is valid
-  if(!this->outputBufferValid) {
+  if(!this->bufValid) {
 
     // Recursively evaluate gene values
-    aInput = genes[this->aInputIndex].getOutputBuffer(genes);
-    if((this->geneFunction != GENE_FN_NOP) && (this->geneFunction != GENE_FN_NOT)) {
-      bInput = genes[this->bInputIndex].getOutputBuffer(genes);
+    aInput = genes[this->aIndex].getOutputBuffer(genes);
+    if((this->function != GENE_FN_NOP) && (this->function != GENE_FN_NOT)) {
+      bInput = genes[this->bIndex].getOutputBuffer(genes);
     }
 
     // Mark gene output as valid
-    this->outputBuffer = this->computeBufferValue(aInput, bInput);
-    this->outputBufferValid = true;
+    this->buf = this->computeBufferValue(aInput, bInput);
+    this->bufValid = true;
   }
 
   // Return the output buffer
-  return this->outputBuffer;
+  return this->buf;
 }
 
 
@@ -60,7 +60,7 @@ uint64_t gene::getOutputBuffer(vector<gene>& genes) {
 uint64_t gene::computeBufferValue(uint64_t a, uint64_t b) {
 
   // Compute value depending on
-  switch(this->geneFunction) {
+  switch(this->function) {
 
     // Logic functions
     case GENE_FN_NOP: return a; break;
@@ -84,8 +84,8 @@ uint64_t gene::computeBufferValue(uint64_t a, uint64_t b) {
 
 // Function to set gene input
 void gene::overrideBuffer(uint64_t bv) {
-  this->outputBuffer = bv;
-  this->outputBufferValid = true;
+  this->buf = bv;
+  this->bufValid = true;
 }
 
 
@@ -95,9 +95,9 @@ bool gene::mutate(uint32_t selectedIndex, subPopulationAlgorithm& algorithm) {
 
   // Randomly select gene characteristic to mutate
   switch(algorithm.localRand(0, 2)) {
-    case 0: this->aInputIndex = algorithm.randomGeneInputIndex(selectedIndex); break;
-    case 1: this->bInputIndex = algorithm.randomGeneInputIndex(selectedIndex); break;
-    case 2: this->geneFunction = algorithm.randomGeneFunction(); break;
+    case 0: this->aIndex = algorithm.randomGeneInputIndex(selectedIndex); break;
+    case 1: this->bIndex = algorithm.randomGeneInputIndex(selectedIndex); break;
+    case 2: this->function = algorithm.randomGeneFunction(); break;
     default:
       err("Error, failed gene mutation operation.\n");
       exit(1);
@@ -105,8 +105,8 @@ bool gene::mutate(uint32_t selectedIndex, subPopulationAlgorithm& algorithm) {
   }
 
   // Invalidate output buffer
-  bool previouslyActive = this->outputBufferValid;
-  this->outputBufferValid = false;
+  bool previouslyActive = this->bufValid;
+  this->bufValid = false;
   return previouslyActive;
 }
 
@@ -117,9 +117,9 @@ geneNetworkFrame_t gene::getNetworkFrame(void) {
   geneNetworkFrame_t t;
 
   // Populate the gene template struct
-  t.aInputIndex = this->aInputIndex;
-  t.bInputIndex = this->bInputIndex;
-  t.geneFunction = this->geneFunction;
+  t.aIndex = this->aIndex;
+  t.bIndex = this->bIndex;
+  t.function = this->function;
 
   // Return the gene template struct
   return t;

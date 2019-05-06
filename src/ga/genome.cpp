@@ -57,7 +57,7 @@ void genome::updatePerfData(truthTable& target) {
 
     // First loop iterates over genes, invalidating all of the output buffers
     for(unsigned j = 0; j < this->genes.size(); j++) {
-      this->genes[j].outputBufferValid = false;
+      this->genes[j].bufValid = false;
     }
 
     // Second loop reapplies inputs
@@ -90,7 +90,7 @@ void genome::updatePerfData(truthTable& target) {
   for(unsigned i = target.getInputCount(); i < this->genes.size(); i++) {
     if(this->genes[i].isActive()) {
       this->perfData.activeGenes++;
-      this->perfData.updateFunctionCount(this->genes[i].geneFunction, 1);
+      this->perfData.updateFunctionCount(this->genes[i].function, 1);
     }
   }
 
@@ -168,11 +168,11 @@ void genome::copyFrom(genome& g) {
 void genome::outputToFile(string const path) {
   ofstream fp(path);
   for(unsigned i = 0; i < this->genes.size(); i++) {
-    if(this->genes[i].outputBufferValid) {
+    if(this->genes[i].bufValid) {
       fp << "GATE: " << i;
-      fp << " IN: " << this->genes[i].aInputIndex;
-      fp << ", " << this->genes[i].bInputIndex;
-      fp << " FN: " << this->genes[i].geneFunction << "\n";
+      fp << " IN: " << this->genes[i].aIndex;
+      fp << ", " << this->genes[i].bIndex;
+      fp << " FN: " << this->genes[i].function << "\n";
     }
   }
 }

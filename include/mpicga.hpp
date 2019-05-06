@@ -26,23 +26,24 @@ class subPopulationAlgorithm;
 
 //========[GENE]=================================================================================//
 
-// Gene values
-#define GENE_FN_NOP '-'
-#define GENE_FN_NOT '~'
-#define GENE_FN_AND '&'
-#define GENE_FN_NAND '@'
-#define GENE_FN_OR '|'
-#define GENE_FN_NOR ':'
-#define GENE_FN_XOR '^'
-#define GENE_FN_XNOR 'v'
-
+// Gene function enum
+typedef enum : uint8_t {
+  GENE_FN_NOP,
+  GENE_FN_NOT,
+  GENE_FN_AND,
+  GENE_FN_NAND,
+  GENE_FN_OR,
+  GENE_FN_NOR,
+  GENE_FN_XOR,
+  GENE_FN_XNOR
+} geneFunction_t;
 
 
 // Minimal gene datastructure for transmission over the network
 typedef struct {
-  char geneFunction;
-  uint16_t aInputIndex;
-  uint16_t bInputIndex;
+  geneFunction_t function;
+  uint16_t aIndex;
+  uint16_t bIndex;
 } geneNetworkFrame_t;
 
 
@@ -51,11 +52,11 @@ typedef struct {
 class gene {
   public:
 
-    bool outputBufferValid;         // Flag to indicate whether or not output value buffer is valid
-    char geneFunction;              // Character representative of gene logic function
-    uint16_t aInputIndex;           // Input index A
-    uint16_t bInputIndex;           // Input index B
-    uint64_t outputBuffer;          // Output buffer bits
+    bool bufValid;              // Flag to indicate whether or not output value buffer is valid
+    geneFunction_t function;    // Character representative of gene logic function
+    uint16_t aIndex;            // Input index A
+    uint16_t bIndex;            // Input index B
+    uint64_t buf;               // Output buffer bitmap
 
   public:
 
@@ -66,18 +67,18 @@ class gene {
     uint64_t computeBufferValue(uint64_t a, uint64_t b);    // Calculate gene output with given inputs
 
     // Gets and sets for gene functions
-    char getGeneFunction(void) {return this->geneFunction;}
-    void setGeneFunction(char gf) {this->geneFunction = gf;}
-    bool isActive(void) {return this->outputBufferValid;}
+    char getGeneFunction(void) {return this->function;}
+    void setGeneFunction(geneFunction_t const fn) {this->function = fn;}
+    bool isActive(void) {return this->bufValid;}
 
     // Gets and sets for output buffer
-    void clearBuffer(void) {this->outputBufferValid = false;}
+    void clearBuffer(void) {this->bufValid = false;}
     void overrideBuffer(uint64_t iv);
 
     // General operations
-    void setFunction(char fn) {this->geneFunction = fn;}
-    void setAIndex(uint32_t a) {this->aInputIndex = a;}
-    void setBIndex(uint32_t b) {this->bInputIndex = b;}
+    void setFunction(geneFunction_t const fn) {this->function = fn;}
+    void setAIndex(uint16_t const a) {this->aIndex = a;}
+    void setBIndex(uint16_t const b) {this->bIndex = b;}
     bool mutate(uint32_t minIndex, uint32_t maxIndex, vector<char> fnPool);
     bool mutate(uint32_t selectedIndex, subPopulationAlgorithm& algorithm);
 
@@ -258,7 +259,7 @@ class subPopulationAlgorithm {
     uint32_t mutateCount;
     uint32_t minFeedForward;
     uint32_t maxFeedForward;
-    vector<char> allowableFunctions;
+    vector<geneFunction_t> allowableFunctions;
 
     // Local random number generator
     mt19937 localRandEngine;
@@ -300,8 +301,8 @@ class subPopulationAlgorithm {
     void setMutateCount(uint32_t mc) {this->mutateCount = mc;}
 
     // Get and set for allowable functions
-    vector<char> getAllowableFunctions(void) {return this->allowableFunctions;}
-    void setAllowableFunctions(vector<char> af) {this->allowableFunctions = af;}
+    vector<geneFunction_t> getAllowableFunctions(void) {return this->allowableFunctions;}
+    void setAllowableFunctions(vector<geneFunction_t> const af) {this->allowableFunctions = af;}
 
     // Local random number generator
     int32_t localRand(int32_t minimum, int32_t maximum);
@@ -311,7 +312,7 @@ class subPopulationAlgorithm {
     int32_t randomHighGenome(void);             // Random index for high genome
     int32_t randomLowGenome(void);              // Random index for low genome
     uint32_t randomGeneInputIndex(int32_t i);   // Random gene input index for gene i
-    char randomGeneFunction(void);              // Random allowable gene function
+    geneFunction_t randomGeneFunction(void);    // Random allowable gene function
 };
 
 

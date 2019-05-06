@@ -140,7 +140,7 @@ uint32_t subPopulationAlgorithm::randomGeneInputIndex(int32_t i) {
 
 
 // Pick a gene at random
-char subPopulationAlgorithm::randomGeneFunction(void) {
+geneFunction_t subPopulationAlgorithm::randomGeneFunction(void) {
   return this->allowableFunctions[this->localRand(0, this->allowableFunctions.size() - 1)];
 }
 
