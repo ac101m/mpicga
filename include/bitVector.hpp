@@ -2,11 +2,10 @@
 #define BITVECTOR_H
 
 
-// Standard C stuff
+// Standard
 #include "stdint.h"
 #include <vector>
 #include <string>
-using namespace std;
 
 
 // Print formats
@@ -18,7 +17,7 @@ using namespace std;
 class bitVector {
   private:
     uint32_t length;
-    vector<uint64_t> bitmaps;
+    std::vector<uint64_t> bitmaps;
 
     // Internal management functions
     uint32_t bitmapIndex(uint32_t bit);         // Indexing of bitmap vector
@@ -32,7 +31,7 @@ class bitVector {
     // General utility
     void reset(void);
     void init(uint32_t l);
-    string str(uint8_t format);
+    std::string str(uint8_t format);
 
     // Low level access
     uint64_t getBitmap(uint32_t bitmapIndex);

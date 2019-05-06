@@ -2,17 +2,15 @@
 #include "utils.hpp"
 
 
-// CPP
+// Standard
 #include <sstream>
 #include <iostream>
-
-
-// C
 #include "stdlib.h"
 #include "stdint.h"
+using namespace std;
 
 
-// MPI
+// External
 #include "mpi.h"
 
 
@@ -98,4 +96,3 @@ void warn(string msg) {
         cout << "\n";
     }
 }
-

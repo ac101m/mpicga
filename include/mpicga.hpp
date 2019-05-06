@@ -2,7 +2,7 @@
 #define MPIGA_H
 
 
-// Standard stuff
+// Standard
 #include "stdint.h"
 #include <vector>
 #include <map>
@@ -10,10 +10,9 @@
 #include <sstream>
 #include <random>
 #include <functional>
-using namespace std;
 
 
-// Project headers
+// Internal
 #include "mpi.h"
 #include "truthTable.hpp"
 
@@ -51,7 +50,7 @@ inline std::string str(geneFunction_t const fn) {
     case GENE_FN_XOR: return "XOR"; break;
     case GENE_FN_XNOR: return "XNOR"; break;
     default:
-      cout << "Error, unrecognised gene function\n";
+      std::cout << "Error, unrecognised gene function\n";
       exit(1);
   }
 }
@@ -81,8 +80,8 @@ class gene {
     // Constructors
     gene(void);                 // Blank
     gene(geneNetworkFrame_t);   // From network frame
-    uint64_t getOutputBuffer(vector<gene>& genes);          // Get gene output buffer recursively
-    uint64_t computeBufferValue(uint64_t a, uint64_t b);    // Calculate gene output with given inputs
+    uint64_t getOutputBuffer(std::vector<gene>& genes);   // Get gene output buffer recursively
+    uint64_t computeBufferValue(uint64_t a, uint64_t b);  // Calculate gene output with given inputs
 
     // Gets and sets for gene functions
     char getGeneFunction(void) {return this->function;}
@@ -97,7 +96,7 @@ class gene {
     void setFunction(geneFunction_t const fn) {this->function = fn;}
     void setAIndex(uint16_t const a) {this->aIndex = a;}
     void setBIndex(uint16_t const b) {this->bIndex = b;}
-    bool mutate(uint32_t minIndex, uint32_t maxIndex, vector<char> fnPool);
+    bool mutate(uint32_t minIndex, uint32_t maxIndex, std::vector<char> fnPool);
     bool mutate(uint32_t selectedIndex, subPopulationAlgorithm& algorithm);
 
     // Generates and returns a gene template
@@ -139,7 +138,7 @@ typedef struct {
       case GENE_FN_XOR: xorCount += i; break;
       case GENE_FN_XNOR: xnorCount += i; break;
       default:
-        cout << "Error, unrecognised gene function\n";
+        std::cout << "Error, unrecognised gene function\n";
         exit(1);
     }
   }
@@ -161,8 +160,8 @@ typedef struct {
   }
 
   // Produces printout string for genome performance struct
-  string str(void) {
-    stringstream ss;
+  std::string str(void) {
+    std::stringstream ss;
     ss << this->bitErrors << " \t";
     ss << this->activeGenes << " \t";
     ss << this->maxGateDelays << " \t";
@@ -178,7 +177,7 @@ class genome {
   private:
 
     // Genome state information
-    vector<gene> genes;                 // Gene array
+    std::vector<gene> genes;                 // Gene array
 
     // Genome performance data relative to input pattern used during evaluation
     genomePerf_t perfData;
@@ -196,7 +195,7 @@ class genome {
 
     // Gets for genome data
     uint32_t getGeneCount(void) {return this->genes.size();}
-    vector<gene> getGenes(void) {return this->genes;}
+    std::vector<gene> getGenes(void) {return this->genes;}
     genomePerf_t getPerfData(truthTable& target);
 
     // Operators
@@ -210,7 +209,7 @@ class genome {
     void copyFrom(genome& g);
 
     // output genome to file
-    void outputToFile(string const path);
+    void outputToFile(std::string const path);
 };
 
 
@@ -277,10 +276,10 @@ class subPopulationAlgorithm {
     uint32_t mutateCount;
     uint32_t minFeedForward;
     uint32_t maxFeedForward;
-    vector<geneFunction_t> allowableFunctions;
+    std::vector<geneFunction_t> allowableFunctions;
 
     // Local random number generator
-    mt19937 localRandEngine;
+    std::mt19937 localRandEngine;
 
     // Current tag for transmit operations
     uint32_t txTagCounter;
@@ -319,8 +318,8 @@ class subPopulationAlgorithm {
     void setMutateCount(uint32_t mc) {this->mutateCount = mc;}
 
     // Get and set for allowable functions
-    vector<geneFunction_t> getAllowableFunctions(void) {return this->allowableFunctions;}
-    void setAllowableFunctions(vector<geneFunction_t> const af) {this->allowableFunctions = af;}
+    std::vector<geneFunction_t> getAllowableFunctions(void) {return this->allowableFunctions;}
+    void setAllowableFunctions(std::vector<geneFunction_t> const af) {this->allowableFunctions = af;}
 
     // Local random number generator
     int32_t localRand(int32_t minimum, int32_t maximum);
@@ -367,8 +366,8 @@ class subPopulation {
     subPopulationAlgorithm algorithm;
 
     // Population state data
-    vector<genome> genomes;                     // Raw genome data
-    vector<genomeFitnessMapping_t> rankMap;     // Genome rank map
+    std::vector<genome> genomes;                     // Raw genome data
+    std::vector<genomeFitnessMapping_t> rankMap;     // Genome rank map
 
   private:
 
@@ -380,14 +379,14 @@ class subPopulation {
     void sortRankMap(void);
 
     // Assert checks
-    void assertInitialised(string msg);
-    void assertLocal(string msg);
+    void assertInitialised(std::string msg);
+    void assertLocal(std::string msg);
 
     // Internal copy transmit and recieve routines
-    void parseGenomeBuffer(genomeTransmissionBuffer& buffer, vector<uint32_t>& genomeIndices);
-    void copyGenomes(vector<uint32_t>& genomeIndices, subPopulation& source);
-    void importGenomes(vector<uint32_t>& genomeIndices, subPopulation& source, uint32_t tag);
-    void exportGenomes(vector<uint32_t>& genomeIndices, subPopulation& target, uint32_t tag);
+    void parseGenomeBuffer(genomeTransmissionBuffer& buffer, std::vector<uint32_t>& genomeIndices);
+    void copyGenomes(std::vector<uint32_t>& genomeIndices, subPopulation& source);
+    void importGenomes(std::vector<uint32_t>& genomeIndices, subPopulation& source, uint32_t tag);
+    void exportGenomes(std::vector<uint32_t>& genomeIndices, subPopulation& target, uint32_t tag);
 
   public:
 
@@ -417,10 +416,10 @@ class subPopulation {
     subPopulationPerf_t getPerfData(void);
 
     // Subpopulation crossover operator
-    void crossover(subPopulation& pop1, subPopulation& pop2, vector<uint32_t> crossoverIndices, uint32_t tag);
+    void crossover(subPopulation& pop1, subPopulation& pop2, std::vector<uint32_t> crossoverIndices, uint32_t tag);
 
     // Get a specific genome
-    vector<genome> getGenomes(void);
+    std::vector<genome> getGenomes(void);
 
     // Print out the rankmap
     void printRankMap(truthTable& target);
@@ -429,7 +428,7 @@ class subPopulation {
     void updateRankMap(truthTable& target, uint32_t(*ff)(genomePerf_t));
 
     // output the best solution in this subpopulation
-    void outputBestGenome(string const path);
+    void outputBestGenome(std::string const path);
 };
 
 
@@ -442,7 +441,7 @@ class populationAlgorithm {
   private:
 
     // Local random number generation
-    mt19937 localRandEngine;
+    std::mt19937 localRandEngine;
 
     // Crossover variables
     uint32_t selectCount;
@@ -456,7 +455,7 @@ class populationAlgorithm {
     // Subpopulation count algorithm and fitness function
     subPopulationAlgorithm subPopAlgorithm;
     uint32_t subPopulationCount;
-    function<uint32_t(subPopulationPerf_t)> subPopulationFitnessFunction;
+    std::function<uint32_t(subPopulationPerf_t)> subPopulationFitnessFunction;
 
     // Processing modifiers
     uint32_t threadCount;
@@ -499,7 +498,7 @@ class populationAlgorithm {
     int32_t randomHighSubPopulation(void);
 
     // Get a random list of crossover indices
-    vector<uint32_t> randomCrossoverIndices(void);
+    std::vector<uint32_t> randomCrossoverIndices(void);
 
     // Generate a new comm tag
     uint32_t generateCommTag(void) {return this->commTagCounter++;}
@@ -536,17 +535,17 @@ class population {
     bool initialised;
 
     // Vector of subpopulations
-    vector<subPopulation> subPopulations;
-    vector<subPopulationFitnessMapping_t> rankMap;
-    vector<uint32_t> rankSubPopulationCounts;
+    std::vector<subPopulation> subPopulations;
+    std::vector<subPopulationFitnessMapping_t> rankMap;
+    std::vector<uint32_t> rankSubPopulationCounts;
 
   private:
 
     // Error and end if this is not initialised
-    void assertInitialised(string msg);
+    void assertInitialised(std::string msg);
 
     // Get local population
-    vector<uint32_t> getLocalSubPopulationIndices(void);
+    std::vector<uint32_t> getLocalSubPopulationIndices(void);
 
     // Iterate the population n generations
     void iterateSubPopulations(truthTable& target, uint32_t(*ff)(genomePerf_t), uint32_t n);

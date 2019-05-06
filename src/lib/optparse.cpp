@@ -1,6 +1,7 @@
 #include "optparse.hpp"
 #include <assert.h>
 #include <iostream>
+using namespace std;
 
 
 #include <stdio.h>

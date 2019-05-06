@@ -1,6 +1,7 @@
 // Standard headers
 #include <iostream>
 #include <sstream>
+using namespace std;
 
 
 // Project headers
