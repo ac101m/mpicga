@@ -94,8 +94,52 @@ typedef struct {
 
   uint32_t genomeAge;
   uint32_t bitErrors;
-  uint32_t activeGenes;
+  uint16_t activeGenes;
   uint32_t maxGateDelays;
+
+  // Gene function counts
+  uint16_t nopCount;
+  uint16_t notCount;
+  uint16_t andCount;
+  uint16_t nandCount;
+  uint16_t orCount;
+  uint16_t norCount;
+  uint16_t xorCount;
+  uint16_t xnorCount;
+
+
+  // Increment function count
+  void updateFunctionCount(char const fn, uint16_t const i) {
+    switch(fn) {
+      case GENE_FN_NOP: nopCount += i; break;
+      case GENE_FN_NOT: notCount += i; break;
+      case GENE_FN_AND: andCount += i; break;
+      case GENE_FN_NAND: nandCount += i; break;
+      case GENE_FN_OR: orCount += i; break;
+      case GENE_FN_NOR: norCount += i; break;
+      case GENE_FN_XOR: xorCount += i; break;
+      case GENE_FN_XNOR: xnorCount += i; break;
+      default:
+        cout << "Error, unrecognised gene function\n";
+        exit(1);
+    }
+  }
+
+  // Constructor, zeros everything
+  void reset(void) {
+    this->genomeAge = 0;
+    this->bitErrors = 0;
+    this->activeGenes = 0;
+    this->maxGateDelays = 0;
+    this->nopCount = 0;
+    this->notCount = 0;
+    this->andCount = 0;
+    this->nandCount = 0;
+    this->orCount = 0;
+    this->norCount = 0;
+    this->xorCount = 0;
+    this->xnorCount = 0;
+  }
 
   // Produces printout string for genome performance struct
   string str(void) {

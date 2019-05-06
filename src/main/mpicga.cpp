@@ -55,16 +55,38 @@ OptionParser buildOptionParser(int argc, char **argv) {
 
 
 // Define the fitness function for subpopulations
-uint32_t genomeFF(subPopulationPerf_t perf) {
+uint32_t subPopFF(subPopulationPerf_t perf) {
   return perf.bestGenomeFitness;
 }
 
 
 // Define the fitness function for genomes
-uint32_t subPopFF(genomePerf_t perf) {
+uint32_t genomeFF(genomePerf_t perf) {
   uint32_t effectiveActiveGenes = perf.activeGenes;
   if(perf.bitErrors) effectiveActiveGenes = 1024;
   return (perf.bitErrors << 6) + (effectiveActiveGenes << 3) + perf.genomeAge;
+}
+
+
+// Gets number of 7400 chips needed to implement logic
+inline uint32_t chipCount(genomePerf_t const& perf) {
+  uint32_t count = 0;
+  count += perf.notCount / 6;   if(perf.nopCount % 6) count++;
+  count += perf.andCount / 4;   if(perf.andCount % 4) count++;
+  count += perf.nandCount / 4;  if(perf.nandCount % 4) count++;
+  count += perf.orCount / 4;    if(perf.orCount % 4) count++;
+  count += perf.norCount / 4;   if(perf.norCount % 4) count++;
+  count += perf.xorCount / 4;   if(perf.xorCount % 4) count++;
+  count += perf.xnorCount / 4;  if(perf.xnorCount % 4) count++;
+  return count;
+}
+
+
+// Fitness function for subleq
+uint32_t genomeFF7400(genomePerf_t perf) {
+  uint32_t effectiveChipCount = chipCount(perf);
+  if(perf.bitErrors) effectiveChipCount = 256;
+  return (perf.bitErrors << 6) + (effectiveChipCount << 3) + perf.genomeAge;
 }
 
 
@@ -132,12 +154,19 @@ int main(int argc, char **argv) {
 
   // Subpopulation algorithm settings
   p.getAlgorithm().getSubPopulationAlgorithm().setMutateCount(1);
-  p.getAlgorithm().getSubPopulationAlgorithm().setAllowableFunctions({GENE_FN_NAND});
-  p.initialise(target, subPopFF);
+  p.getAlgorithm().getSubPopulationAlgorithm().setAllowableFunctions({
+    GENE_FN_AND,
+    GENE_FN_NAND,
+    GENE_FN_OR,
+    GENE_FN_NOR,
+    GENE_FN_XOR,
+    GENE_FN_XNOR,
+    GENE_FN_NOT});
+  p.initialise(target, genomeFF7400);
 
   // Iterate the population here
   double startTime = MPI_Wtime();
-  p.iterate(target, subPopFF, cycleCount);
+  p.iterate(target, genomeFF7400, cycleCount);
   double endTime = MPI_Wtime();
 
   // Quick barrier to stop execution duration overwriting stuff

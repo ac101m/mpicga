@@ -34,11 +34,8 @@ genome::genome(uint32_t geneCount, subPopulationAlgorithm& algorithm) {
     }
   }
 
-  // Clear genome performance data
-  this->perfData.bitErrors = 0;
-  this->perfData.activeGenes = 0;
-  this->perfData.maxGateDelays = 0;
-  this->perfData.genomeAge = 0;
+  // Clear performance data
+  this->perfData.reset();
 
   // This is the finished
   this->perfDataValid = false;
@@ -49,10 +46,8 @@ genome::genome(uint32_t geneCount, subPopulationAlgorithm& algorithm) {
 // Evaluates genome performance and applies returns performance info
 void genome::updatePerfData(truthTable& target) {
 
-  // Genome performance data
-  this->perfData.bitErrors = 0;
-  this->perfData.activeGenes = 0;
-  this->perfData.maxGateDelays = 0;
+  // Clear genome performance data
+  this->perfData.reset();
 
   // Check that target has inputs and outputs
   target.assertValid();
@@ -91,11 +86,11 @@ void genome::updatePerfData(truthTable& target) {
     }
   }
 
-  // Iterate over genome, calculate number of active genes
-  this->perfData.activeGenes = 0;
+  // Iterate over genome, generate performance data struct
   for(unsigned i = target.getInputCount(); i < this->genes.size(); i++) {
     if(this->genes[i].isActive()) {
       this->perfData.activeGenes++;
+      this->perfData.updateFunctionCount(this->genes[i].geneFunction, 1);
     }
   }
 
